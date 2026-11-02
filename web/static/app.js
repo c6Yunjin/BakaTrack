@@ -1,71 +1,131 @@
-// Page logic: tabs, chat, upload. Each tab keeps its own messages.
-const state = { datasets: [], active: null, chats: {} };
+// Page logic (Step 6c). Each dataset keeps its own messages in the browser.
+const state = { datasets: [], active: null, chats: {}, info: {} };
 const el = id => document.getElementById(id);
+const EN = ["January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"];
+const FIL = ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo",
+             "Agosto", "Setyembre", "Oktubre", "Nobyembre", "Disyembre"];
+
+function make(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;   // textContent keeps text safe
+  return node;
+}
+
+function monthLabel(dateText) {
+  const parts = dateText.split("-");
+  return EN[Number(parts[1]) - 1].slice(0, 3) + " " + parts[0];
+}
+
+async function loadInfo(id) {
+  if (!state.info[id]) {
+    const res = await fetch("/api/datasets/" + id + "/info");
+    if (res.ok) state.info[id] = await res.json();
+  }
+  return state.info[id];
+}
 
 async function loadDatasets(selectId) {
   const res = await fetch("/api/datasets");
   state.datasets = await res.json();
   state.datasets.forEach(d => { if (!state.chats[d.id]) state.chats[d.id] = []; });
-  if (selectId) state.active = selectId;
-  if (state.active === null && state.datasets.length) state.active = state.datasets[0].id;
-  showGreeting();
-  renderTabs();
-  renderMessages();
+  const wanted = selectId || state.active || (state.datasets.length ? state.datasets[0].id : null);
+  if (wanted !== null) { await selectDataset(wanted); }
+  else { renderSidebar(); renderHeader(); renderChat(); }
 }
 
-function showGreeting() {
+async function selectDataset(id) {
+  state.active = id;
+  await loadInfo(id);
+  closeSidebar();
+  renderSidebar();
+  renderHeader();
+  renderChat();
+}
+
+function closeSidebar() {
+  el("sidebar").classList.remove("open");
+  el("scrim").classList.remove("show");
+}
+
+function renderSidebar() {
+  const list = el("dataset-list");
+  list.innerHTML = "";
+  state.datasets.forEach(d => {
+    const b = make("button", d.id === state.active ? "active" : "", d.name);
+    b.onclick = () => selectDataset(d.id);
+    list.appendChild(b);
+  });
+}
+
+function renderHeader() {
+  const info = state.info[state.active];
   const d = state.datasets.find(x => x.id === state.active);
-  if (d && state.chats[d.id].length === 0) {
-    state.chats[d.id].push({ who: "bot",
-      text: "You are in the tab \"" + d.name + "\". Ask me about kilos, head count or prices. Type \"help\" to see examples." });
+  el("ds-name").textContent = d ? d.name : "No dataset yet";
+  el("ds-badge").hidden = !(info && info.is_sample);
+  if (info && info.records > 0) {
+    el("ds-meta").textContent = info.records + " records, " +
+      monthLabel(info.first_date) + " to " + monthLabel(info.last_date);
+  } else {
+    el("ds-meta").textContent = d ? "No records yet" : "Click + New dataset to start";
   }
 }
 
-function renderTabs() {
-  const nav = el("tabs");
-  nav.innerHTML = "";
-  state.datasets.forEach(d => {
-    const b = document.createElement("button");
-    b.textContent = d.name;
-    if (d.id === state.active) b.className = "active";
-    b.onclick = () => { state.active = d.id; showGreeting(); renderTabs(); renderMessages(); };
-    nav.appendChild(b);
-  });
-  const plus = document.createElement("button");
-  plus.textContent = "+";
-  plus.title = "Upload a CSV and make a new tab";
-  plus.onclick = () => { el("upload-panel").hidden = false; };
-  nav.appendChild(plus);
+function exampleQuestions(info) {
+  const base = ["Anong buwan pinakamataas ang presyo?"];
+  if (!info || !info.last_date) return base;
+  // chips use the newest months in the data, so they always find records
+  const y = Number(info.last_date.slice(0, 4)), m = Number(info.last_date.slice(5, 7));
+  const py = m === 1 ? y - 1 : y, pm = m === 1 ? 12 : m - 1;
+  base.push("Ilang kilo ang na-trade noong " + FIL[m - 1] + " " + y + "?");
+  base.push("Compare prices of " + EN[pm - 1] + " " + py + " and " + EN[m - 1] + " " + y);
+  return base;
 }
 
-function renderMessages() {
+function emptyState(d, info) {
+  const box = make("div", "empty");
+  box.appendChild(make("h1", "", d ? "Ask about " + d.name : "Welcome to BakaTrack"));
+  box.appendChild(make("p", "", d ? "Try one of these, or type your own question in English, Filipino or Taglish."
+                                  : "Upload a CSV to create your first dataset."));
+  const chips = make("div", "chips");
+  if (d) exampleQuestions(info).forEach(q => {
+    const c = make("button", "chip", q);
+    c.type = "button";
+    c.onclick = () => sendMessage(q);
+    chips.appendChild(c);
+  });
+  box.appendChild(chips);
+  return box;
+}
+
+function renderChat() {
   const box = el("messages");
   box.innerHTML = "";
-  (state.chats[state.active] || []).forEach(m => {
-    const div = document.createElement("div");
-    div.className = "msg " + m.who;
-    div.textContent = m.text;              // textContent keeps user text safe
-    if (m.meta) {
-      const small = document.createElement("span");
-      small.className = "meta";
-      small.textContent = m.meta;
-      div.appendChild(small);
-    }
+  const d = state.datasets.find(x => x.id === state.active);
+  const list = state.chats[state.active] || [];
+  if (list.length === 0) { box.appendChild(emptyState(d, state.info[state.active])); return; }
+  list.forEach(m => {
+    if (m.who === "user") { box.appendChild(make("div", "user-msg", m.text)); return; }
+    const div = make("div", "bot-msg" + (m.pending ? " pending" : ""), m.text);
+    if (m.meta) div.appendChild(make("span", "meta", m.meta));
     box.appendChild(div);
   });
-  box.scrollTop = box.scrollHeight;
+  const scroller = el("chat-scroll");
+  scroller.scrollTop = scroller.scrollHeight;
 }
 
-el("chat-form").onsubmit = async e => {
-  e.preventDefault();
-  const input = el("chat-input");
-  const text = input.value.trim();
+
+async function sendMessage(text) {
+  text = text.trim();
   if (!text || state.active === null) return;
-  const tab = state.active;                 // remember which tab asked
+  const tab = state.active;                      // remember which dataset asked
+  const pending = { who: "bot", text: "Thinking...", pending: true };
   state.chats[tab].push({ who: "user", text: text });
-  input.value = "";
-  renderMessages();
+  state.chats[tab].push(pending);
+  el("chat-input").value = "";
   el("send-btn").disabled = true;
+  renderChat();
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
@@ -74,19 +134,32 @@ el("chat-form").onsubmit = async e => {
     });
     const data = await res.json();
     if (res.ok) {
-      state.chats[tab].push({ who: "bot", text: data.reply,
-        meta: data.intent + " | " + Math.round(data.confidence * 100) + "% | " + data.seconds + "s" });
+      pending.text = data.reply;
+      pending.meta = data.intent + " | " + Math.round(data.confidence * 100) + "% | " + data.seconds + "s";
     } else {
-      state.chats[tab].push({ who: "bot", text: data.error || "Something went wrong." });
+      pending.text = data.error || "Something went wrong.";
     }
   } catch (err) {
-    state.chats[tab].push({ who: "bot", text: "Cannot reach the server. Is app.py running?" });
+    pending.text = "Cannot reach the server. Is app.py running?";
   }
+  pending.pending = false;
   el("send-btn").disabled = false;
-  renderMessages();
-};
+  renderChat();
+}
 
-el("upload-cancel").onclick = () => { el("upload-panel").hidden = true; };
+el("chat-form").onsubmit = e => { e.preventDefault(); sendMessage(el("chat-input").value); };
+
+el("menu-btn").onclick = () => {
+  el("sidebar").classList.add("open");
+  el("scrim").classList.add("show");
+};
+el("scrim").onclick = closeSidebar;
+
+el("new-dataset").onclick = () => {
+  el("upload-errors").innerHTML = "";
+  el("upload-dialog").showModal();
+};
+el("upload-cancel").onclick = () => el("upload-dialog").close();
 
 el("upload-form").onsubmit = async e => {
   e.preventDefault();
@@ -98,14 +171,10 @@ el("upload-form").onsubmit = async e => {
   const res = await fetch("/api/upload", { method: "POST", body: form });
   const data = await res.json();
   if (!res.ok) {
-    (data.errors || ["Upload failed."]).forEach(msg => {
-      const li = document.createElement("li");
-      li.textContent = msg;
-      list.appendChild(li);
-    });
+    (data.errors || ["Upload failed."]).forEach(msg => list.appendChild(make("li", "", msg)));
     return;
   }
-  el("upload-panel").hidden = true;
+  el("upload-dialog").close();
   el("upload-form").reset();
   await loadDatasets(data.dataset_id);
 };

@@ -7,33 +7,49 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <header>
-    <h1>BakaTrack PH</h1>
-    <p class="note">Answers come only from the data loaded in the selected tab. Tabs marked (SAMPLE) hold fake demo data.</p>
-  </header>
+<div class="app">
+  <aside id="sidebar">
+    <div class="brand">BakaTrack <span>PH</span></div>
+    <button id="new-dataset" class="new-btn">+ New dataset</button>
+    <div class="side-label">Datasets</div>
+    <nav id="dataset-list"></nav>
+    <p class="side-foot">Datasets marked SAMPLE hold fake demo data.</p>
+  </aside>
+  <div id="scrim"></div>
 
-  <nav id="tabs"></nav>
+  <section class="main">
+    <header class="topbar">
+      <button id="menu-btn" type="button" aria-label="Open datasets">&#9776;</button>
+      <div class="titles">
+        <h2 id="ds-name"></h2>
+        <p id="ds-meta"></p>
+      </div>
+      <span id="ds-badge" class="badge" hidden>SAMPLE</span>
+    </header>
 
-  <section id="upload-panel" hidden>
-    <form id="upload-form">
-      <p>Upload a CSV with columns: date (YYYY-MM-DD), head_count, total_kilos, price_per_kilo.</p>
-      <input type="text" id="upload-name" placeholder="Tab name, e.g. Manila" required>
-      <input type="file" id="upload-file" accept=".csv" required>
-      <button type="submit">Upload</button>
-      <button type="button" id="upload-cancel">Cancel</button>
-      <ul id="upload-errors"></ul>
-    </form>
-  </section>
+    <div id="chat-scroll"><div id="messages"></div></div>
 
-  <main>
-    <div id="messages"></div>
     <form id="chat-form">
       <input type="text" id="chat-input" placeholder="Ask about kilos, head count or prices..." autocomplete="off">
-      <button type="submit" id="send-btn">Send</button>
+      <button type="submit" id="send-btn" aria-label="Send">&#10148;</button>
     </form>
-  </main>
+    <p class="disclaimer">Answers come only from the selected dataset. Forecasts and ratings (coming) are a guide only. Please confirm important decisions with the market office.</p>
+  </section>
+</div>
 
-  <footer>Forecasts and ratings (coming) are a guide only. Please confirm important decisions with the market office.</footer>
-  <script src="/static/app.js"></script>
+<dialog id="upload-dialog">
+  <form id="upload-form">
+    <h3>New dataset</h3>
+    <p>Upload a CSV with columns: date (YYYY-MM-DD), head_count, total_kilos, price_per_kilo.</p>
+    <input type="text" id="upload-name" placeholder="Dataset name, e.g. Manila" required>
+    <input type="file" id="upload-file" accept=".csv" required>
+    <ul id="upload-errors"></ul>
+    <div class="dialog-buttons">
+      <button type="button" id="upload-cancel" class="ghost">Cancel</button>
+      <button type="submit" class="primary">Upload</button>
+    </div>
+  </form>
+</dialog>
+<script src="/static/app.js"></script>
 </body>
 </html>

@@ -44,3 +44,13 @@ def test_tabs_stay_separate(client):
 def test_upload_without_file_is_rejected(client):
     res = client.post("/api/upload", data={"name": "X"})
     assert res.status_code == 400
+
+
+def test_dataset_info_route(client):
+    ds = make_dataset("SAMPLE Tab", 1000)
+    info = client.get("/api/datasets/%d/info" % ds).get_json()
+    assert info["records"] == 2
+    assert info["first_date"] == "2026-06-10"
+    assert info["last_date"] == "2026-06-20"
+    assert info["is_sample"] is True
+    assert client.get("/api/datasets/999/info").status_code == 404

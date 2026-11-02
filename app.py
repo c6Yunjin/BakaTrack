@@ -62,6 +62,18 @@ def upload():
     return jsonify({"dataset_id": dataset_id, "name": name})
 
 
+@app.route("/api/datasets/<int:dataset_id>/info")
+def dataset_info(dataset_id):
+    """Header details for one dataset: records, date range, SAMPLE flag."""
+    match = [d for d in db.list_datasets() if d["id"] == dataset_id]
+    if not match:
+        return jsonify({"error": "Unknown dataset."}), 404
+    info = db.get_dataset_info(dataset_id)
+    info["name"] = match[0]["name"]
+    info["is_sample"] = "SAMPLE" in match[0]["name"].upper()
+    return jsonify(info)
+
+
 if __name__ == "__main__":
     db.init_db()
     predict("hello")        # load the model now, so the first question is not slow

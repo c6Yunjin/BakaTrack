@@ -124,3 +124,13 @@ def save_chat_log(dataset_id, message, intent, confidence, response):
         (dataset_id, message, intent, confidence, response))
     conn.commit()
     conn.close()
+
+
+def get_dataset_info(dataset_id):
+    """Record count and first/last date of ONE dataset (for the page header)."""
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT COUNT(*) AS n, MIN(date) AS first_date, MAX(date) AS last_date "
+        "FROM auction_records WHERE dataset_id = ?", (dataset_id,)).fetchone()
+    conn.close()
+    return {"records": row["n"], "first_date": row["first_date"], "last_date": row["last_date"]}
