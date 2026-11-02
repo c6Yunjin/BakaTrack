@@ -51,15 +51,13 @@ def build_chart_answer(lang, parsed, summary, message):
     """Short written summary + chart data. Returns (text, chart)."""
     metric = parsed["metric"]
     name = rb.METRIC_NAME[lang][metric]
-    lines = [rb.t(lang, "range_line", start=summary["start"], end=summary["end"],
-                  n=summary["months_used"]),
-             CHART_LINE[lang].format(name=name)]
+    lines = [CHART_LINE[lang].format(name=name)]
     if summary["months_used"] >= 2:
         top, low = qe.peak_month(summary, metric), qe.lowest_month(summary, metric)
         lines.append(rb.t(lang, "peak_line", name=name, label=top["label"],
                           value=rb.fmt_value(metric, top[metric])))
         lines.append(rb.t(lang, "lowest_line", name=name, label=low["label"],
                           value=rb.fmt_value(metric, low[metric])))
-    lines += rb._footer(lang, parsed, summary, metric)
     chart = build_chart(summary, metric, chart_type_for(metric, message), lang)
-    return "\n".join(lines), chart
+    text = "\n".join(lines) + "\n\n" + rb._footer_line(lang, parsed, summary, metric)
+    return text, chart

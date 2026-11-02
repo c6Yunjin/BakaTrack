@@ -99,6 +99,18 @@ function emptyState(d, info) {
   return box;
 }
 
+const FOOTER_STARTS = ["Period:", "Saklaw:"];
+
+function splitFooter(text) {
+  const i = text.lastIndexOf("\n\n");
+  if (i === -1) return { main: text, footer: "" };
+  const last = text.slice(i + 2);
+  if (FOOTER_STARTS.some(s => last.startsWith(s))) {
+    return { main: text.slice(0, i), footer: last };
+  }
+  return { main: text, footer: "" };
+}
+
 function renderChat() {
   const box = el("messages");
   box.innerHTML = "";
@@ -107,7 +119,9 @@ function renderChat() {
   if (list.length === 0) { box.appendChild(emptyState(d, state.info[state.active])); return; }
   list.forEach(m => {
     if (m.who === "user") { box.appendChild(make("div", "user-msg", m.text)); return; }
-    const div = make("div", "bot-msg" + (m.pending ? " pending" : ""), m.text);
+    const parts = splitFooter(m.text);
+    const div = make("div", "bot-msg" + (m.pending ? " pending" : ""), parts.main);
+    if (parts.footer) div.appendChild(make("div", "footer-note", parts.footer));
     if (m.chart) div.appendChild(chartBox(m.chart));
     if (m.meta) div.appendChild(make("span", "meta", m.meta));
     box.appendChild(div);
