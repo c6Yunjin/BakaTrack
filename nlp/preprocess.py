@@ -25,3 +25,19 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text).strip()     # collapse many spaces into one
     words = [SPELLING_FIXES.get(w, w) for w in text.split()]
     return " ".join(w for w in words if w)
+
+
+# Filler words that carry no meaning for the intent. Dropped before the ANN reads the text.
+STOPWORDS = {
+    "ang", "ng", "sa", "na", "ba", "ano", "anong", "ako", "ko", "mo", "ay", "mga",
+    "naman", "lang", "din", "rin", "yung", "iyong", "si", "ni", "kay", "para",
+    "the", "is", "a", "an", "of", "to", "what", "do", "does", "i", "you", "me",
+    "my", "it", "this", "that", "are",
+}
+
+
+def prepare(text):
+    """clean_text, then remove filler words. This is what the ANN actually sees."""
+    cleaned = clean_text(text)
+    words = [w for w in cleaned.split() if w not in STOPWORDS]
+    return " ".join(words) if words else cleaned
