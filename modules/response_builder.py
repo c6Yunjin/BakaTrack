@@ -89,7 +89,7 @@ def fmt_percent(percent):
 
 def _footer(lang, parsed, summary, metric):
     """Honesty lines: assumptions the parser made, price method, missing months."""
-    lines = list(parsed.get("notes", []))
+    lines = [n for n in parsed.get("notes", []) if not n.startswith("Showing")]
     if metric == "price_per_kilo":
         lines.append(t(lang, "price_note"))
     if summary["gaps"]:
@@ -138,8 +138,7 @@ def build_answer(intent, lang, parsed, summary):
     else:
         metric = parsed["metric"]
     name = METRIC_NAME[lang][metric]
-    lines = [t(lang, "range_line", start=summary["start"], end=summary["end"],
-               n=summary["months_used"])]
+    lines = []
 
     if intent in ("total_kilos", "head_count"):
         lines.append(t(lang, "total_line", name=name.capitalize(),
@@ -156,7 +155,7 @@ def build_answer(intent, lang, parsed, summary):
     elif intent == "price_trend":
         lines += _trend(lang, summary, metric, name)
 
-    return "\n".join(lines + _footer(lang, parsed, summary, metric))
+    return "\n".join(lines) + "\n\n" + _footer_line(lang, parsed, summary, metric)
 
 
 TEXT["en"].update({
@@ -205,3 +204,24 @@ TEXT["fil"].update({
     "fc_footer": "Batay sa {n} buwan ng talaan ({first} hanggang {last}). Pagtataya lamang ito, gabay at hindi garantiya. Walang inaangking pana-panahong pattern.",
     "fc_need_more": "Kailangan ko ng hindi bababa sa {min} buwan ng talaan para magtaya, at {n} lang ang meron ang dataset na ito.",
 })
+
+
+TEXT["en"].update({
+    "footer_many": "Period: {first} to {last} ({n} months of records used).",
+    "footer_one": "Period: {label} (1 month of records used).",
+})
+TEXT["fil"].update({
+    "footer_many": "Saklaw: {first} hanggang {last} ({n} buwan ng talaan ang ginamit).",
+    "footer_one": "Saklaw: {label} (1 buwan ng talaan ang ginamit).",
+})
+
+
+def _footer_line(lang, parsed, summary, metric):
+    """One small line under the answer: period, months used, notes."""
+    months = summary["months"]
+    first, last = months[0]["label"], months[-1]["label"]
+    if first == last:
+        period = t(lang, "footer_one", label=first)
+    else:
+        period = t(lang, "footer_many", first=first, last=last, n=summary["months_used"])
+    return " ".join([period] + _footer(lang, parsed, summary, metric))
