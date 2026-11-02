@@ -251,20 +251,25 @@ def parse_query(text, latest_date=None):
 
     # 3. Build the notes the answer will show
     notes = []
+    note_keys = []                 # same notes as data, so the reply can be translated
     range_found = start is not None
     if range_found:
         text_range = _describe(start, end)
         notes.append(f"Showing {label + ': ' if label else ''}{text_range}.")
         if relative:
             notes.append(f"Dates are counted from the latest record in the data ({latest.isoformat()}).")
+            note_keys.append(("relative", {"latest": latest.isoformat()}))
         if swapped and any(t in RANGE_WORDS for t in tokens):
             notes.append("The dates were in reverse order, so I swapped them.")
+            note_keys.append(("swapped", {}))
     else:
         sy, sm = _shift_month(latest.year, latest.month, -5)
         start, end = date(sy, sm, 1), latest_end
         notes.append(f"No dates were given, so I used the latest 6 months of data: {_describe(start, end)}.")
+        note_keys.append(("default_range", {"range": _describe(start, end)}))
     if not metric_found:
         notes.append("No metric was given, so I assumed price.")
+        note_keys.append(("no_metric", {}))
 
     return {
         "start": start.isoformat(),
@@ -278,4 +283,5 @@ def parse_query(text, latest_date=None):
         "wants_next_month": wants_next_month,
         "latest_date": latest.isoformat(),
         "notes": notes,
+        "note_keys": note_keys,
     }

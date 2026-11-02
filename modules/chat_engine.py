@@ -61,6 +61,7 @@ def answer(dataset_id, message):
         if message.strip():
             intent, confidence, is_confident = predict(message)
         reply, chart = _reply_for(dataset_id, message, lang, intent, confidence, is_confident)
+        reply = rb.localize_months(lang, reply)
     except Exception:
         traceback.print_exc()                          # show the real error in the terminal
         reply = rb.t(lang, "error")

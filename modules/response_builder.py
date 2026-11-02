@@ -89,7 +89,7 @@ def fmt_percent(percent):
 
 def _footer(lang, parsed, summary, metric):
     """Honesty lines: assumptions the parser made, price method, missing months."""
-    lines = [n for n in parsed.get("notes", []) if not n.startswith("Showing")]
+    lines = _translated_notes(lang, parsed)
     if metric == "price_per_kilo":
         lines.append(t(lang, "price_note"))
     if summary["gaps"]:
@@ -279,3 +279,53 @@ TEXT["taglish"].update({
 })
 METRIC_NAME["taglish"] = {"total_kilos": "total kilos", "head_count": "head count",
                           "price_per_kilo": "price per kilo"}
+
+
+# ---------- translated parser notes and month names ----------
+import re
+
+TEXT["en"].update({
+    "note_relative": "Dates are counted from the latest record in the data ({latest}).",
+    "note_swapped": "The dates were in reverse order, so I swapped them.",
+    "note_default_range": "No dates were given, so I used the latest 6 months of data: {range}.",
+    "note_no_metric": "No metric was given, so I assumed price.",
+})
+TEXT["fil"].update({
+    "note_relative": "Ang mga petsa ay binibilang mula sa pinakabagong talaan sa datos ({latest}).",
+    "note_swapped": "Magkabaligtad ang pagkakasunod ng mga petsa, kaya pinalitan ko ang ayos.",
+    "note_default_range": "Walang binanggit na petsa, kaya ginamit ko ang pinakabagong 6 na buwan ng datos: {range}.",
+    "note_no_metric": "Walang binanggit na sukatan, kaya ipinalagay kong presyo.",
+})
+TEXT["taglish"].update({
+    "note_relative": "Ang dates ay binibilang mula sa latest record sa data ({latest}).",
+    "note_swapped": "Baligtad ang order ng dates, kaya pinalitan ko.",
+    "note_default_range": "Walang binanggit na petsa, kaya ginamit ko ang latest 6 months ng data: {range}.",
+    "note_no_metric": "Walang binanggit na metric, kaya nag-assume ako ng price.",
+})
+
+FIL_MONTHS = {"January": "Enero", "February": "Pebrero", "March": "Marso", "April": "Abril",
+              "May": "Mayo", "June": "Hunyo", "July": "Hulyo", "August": "Agosto",
+              "September": "Setyembre", "October": "Oktubre", "November": "Nobyembre",
+              "December": "Disyembre"}
+_EN_MONTH = re.compile(r"\b(" + "|".join(FIL_MONTHS) + r")\b(?= \d)")   # only before a number
+
+
+def localize_months(lang, text):
+    """Filipino replies use Filipino month names. English and Taglish keep English names."""
+    if lang != "fil":
+        return text
+    return _EN_MONTH.sub(lambda m: FIL_MONTHS[m.group(1)], text)
+
+
+def _translated_notes(lang, parsed):
+    """Parser notes written from our own templates in the reply language."""
+    keys = parsed.get("note_keys")
+    if keys is None:                       # older parser result: keep the English notes
+        return [n for n in parsed.get("notes", []) if not n.startswith("Showing")]
+    lines = []
+    for key, values in keys:
+        values = dict(values)
+        if "range" in values and lang != "en":
+            values["range"] = values["range"].replace(" to ", " hanggang ")
+        lines.append(t(lang, "note_" + key, **values))
+    return lines
