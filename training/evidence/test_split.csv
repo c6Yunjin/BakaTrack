@@ -1,0 +1,86 @@
+text,intent
+list your commands,help
+ipakita ang presyo sa chart noong hunyo,show_chart
+show me the trend,price_trend
+bottom month for baka prices,lowest_month
+are prices rising,price_trend
+is the price going up,price_trend
+ilan baka lahat noong oktubre,head_count
+total kilo ng hunyo,total_kilos
+yun lang salamat,goodbye
+where do i upload a file,upload_help
+total kilo noong nakaraang taon,total_kilos
+thanks,goodbye
+sige paalam,goodbye
+price movement this year,price_trend
+anong kaya mo,help
+magandang gabi,greeting
+presyo ng manok,out_of_scope
+kumusta ang presyo kumpara sa dati,price_rating
+hi there,greeting
+how many baka from march to august,head_count
+projected price for next month,forecast
+month with highest price in 2026,peak_month
+total kilo for march,total_kilos
+head count noong nakaraang buwan,head_count
+difference in price between two months,price_compare
+pinakamababang buwan ng presyo ngayong taon,lowest_month
+month to month price comparison,price_compare
+ano ang panahon bukas,out_of_scope
+hanggang sa muli,goodbye
+ano ang template ng csv,upload_help
+what can i ask,help
+mataas ba ang presyo ngayon,price_rating
+normal ba ang presyo,price_rating
+what is the stock market today,out_of_scope
+what time is it,out_of_scope
+ano pwede kong itanong,help
+cheapest month for buying baka,lowest_month
+can you write my homework,out_of_scope
+help me please,help
+compare prices of january and february,price_compare
+ano ang rating ng presyo ngayon,price_rating
+count of baka sold in august,head_count
+ilan kilo ang na-trade noong hunyo,total_kilos
+anong buwan pinakamataas ang presyo,peak_month
+show baka prices from january to june 2026,show_chart
+what is the meaning of life,out_of_scope
+ipakita ang chart ng presyo,show_chart
+sige bye na,goodbye
+how many baka will be traded next month,forecast
+musta,greeting
+ilan head ang na-trade noong setyembre,head_count
+sing a song,out_of_scope
+kumusta,greeting
+ilan ang baka sa auction noong enero,head_count
+pinakamataas na presyo noong anong buwan,peak_month
+kailan tumaas ang presyo ng pinakamataas,peak_month
+how to import data,upload_help
+sino ang may advantage ngayon buyer o seller,price_rating
+should i buy now,price_rating
+anong buwan pinakamura ang baka,lowest_month
+bababa ba ang presyo next month,forecast
+pinakamataas na buwan ng presyo ngayong taon,peak_month
+bar chart of kilo,show_chart
+ano ang tamang format ng petsa,upload_help
+maraming salamat,goodbye
+price difference between march and april,price_compare
+ano ang inaasahang presyo,forecast
+price comparison april vs may,price_compare
+how to upload csv,upload_help
+paano magsimula,help
+what is the live auction price right now,out_of_scope
+ipakita ang chart ng kilo,show_chart
+which month had the fewest kilo traded,lowest_month
+lowest month for prices,lowest_month
+price direction lately,price_trend
+bumababa ba ang presyo,price_trend
+predict the head count next month,forecast
+kilo sold in november,total_kilos
+anong buwan ang pinakamalaki ang bilang ng baka,peak_month
+mas mababa ba ang presyo noong pebrero kaysa enero,price_compare
+forecast of kilo next month,forecast
+display a chart,show_chart
+gaano karaming kilo ang na-trade this year,total_kilos
+good evening,greeting
+ano ang kailangang laman ng csv,upload_help

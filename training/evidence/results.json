@@ -1,0 +1,23 @@
+{
+  "parameters": {
+    "hidden_layer_sizes": [
+      64,
+      32
+    ],
+    "activation": "relu",
+    "solver": "adam",
+    "alpha": 0.0001,
+    "max_iter": 1000,
+    "random_state": 42
+  },
+  "vectorizer": "TF-IDF, word 1-2 grams, sublinear_tf",
+  "random_seed": 42,
+  "total_sentences_used": 425,
+  "train_size": 340,
+  "test_size": 85,
+  "vocabulary_size": 1186,
+  "training_iterations": 197,
+  "test_accuracy": 0.7529,
+  "share_of_test_above_60_percent_confidence": 0.8,
+  "duplicate_sentences_removed": 1
+}
