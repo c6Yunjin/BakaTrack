@@ -1,4 +1,5 @@
 # Database layer: creates the SQLite tables and handles saving/reading records.
+import json
 import sqlite3
 from config import DB_PATH
 
@@ -41,6 +42,7 @@ def init_db():
             timestamp TEXT DEFAULT CURRENT_TIMESTAMP
         );
     """)
+    _ensure_chat_columns(conn)
     conn.commit()
     conn.close()
 
@@ -115,13 +117,15 @@ def get_latest_date(dataset_id):
     return row["latest"]
 
 
-def save_chat_log(dataset_id, message, intent, confidence, response):
-    """Save one question and its answer in the chat_logs table."""
+def save_chat_log(dataset_id, message, intent, confidence, response, chart=None):
+    """Save one question and its answer (and chart data, if any) in the chat_logs table."""
     conn = get_connection()
+    _ensure_chat_columns(conn)
     conn.execute(
-        "INSERT INTO chat_logs (dataset_id, message, detected_intent, confidence, response) "
-        "VALUES (?, ?, ?, ?, ?)",
-        (dataset_id, message, intent, confidence, response))
+        "INSERT INTO chat_logs (dataset_id, message, detected_intent, confidence, response, chart_json) "
+        "VALUES (?, ?, ?, ?, ?, ?)",
+        (dataset_id, message, intent, confidence, response,
+         json.dumps(chart) if chart else None))
     conn.commit()
     conn.close()
 
@@ -134,3 +138,41 @@ def get_dataset_info(dataset_id):
         "FROM auction_records WHERE dataset_id = ?", (dataset_id,)).fetchone()
     conn.close()
     return {"records": row["n"], "first_date": row["first_date"], "last_date": row["last_date"]}
+
+
+
+def _ensure_chat_columns(conn):
+    """Old databases get two new chat_logs columns added. Nothing is deleted."""
+    have = [r["name"] for r in conn.execute("PRAGMA table_info(chat_logs)").fetchall()]
+    if not have:
+        return
+    for column, kind in (("chart_json", "TEXT"), ("hidden", "INTEGER DEFAULT 0")):
+        if column not in have:
+            conn.execute("ALTER TABLE chat_logs ADD COLUMN " + column + " " + kind)
+
+
+def get_chat_history(dataset_id, limit=100):
+    """Saved messages of ONE dataset (oldest first), without the ones that were cleared."""
+    conn = get_connection()
+    _ensure_chat_columns(conn)
+    rows = conn.execute(
+        "SELECT message, response, detected_intent, confidence, chart_json FROM chat_logs "
+        "WHERE dataset_id = ? AND COALESCE(hidden, 0) = 0 ORDER BY id DESC LIMIT ?",
+        (dataset_id, limit)).fetchall()
+    conn.commit()
+    conn.close()
+    history = []
+    for r in reversed(rows):
+        history.append({"message": r["message"], "response": r["response"],
+                        "intent": r["detected_intent"], "confidence": r["confidence"],
+                        "chart": json.loads(r["chart_json"]) if r["chart_json"] else None})
+    return history
+
+
+def clear_chat_history(dataset_id):
+    """Hide the chat of ONE dataset. The rows stay in the table as evidence."""
+    conn = get_connection()
+    _ensure_chat_columns(conn)
+    conn.execute("UPDATE chat_logs SET hidden = 1 WHERE dataset_id = ?", (dataset_id,))
+    conn.commit()
+    conn.close()

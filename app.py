@@ -74,6 +74,23 @@ def dataset_info(dataset_id):
     return jsonify(info)
 
 
+@app.route("/api/datasets/<int:dataset_id>/history")
+def dataset_history(dataset_id):
+    """Saved messages of ONE dataset, so the chat survives a page reload."""
+    if not _dataset_exists(dataset_id):
+        return jsonify({"error": "Unknown dataset."}), 404
+    return jsonify({"messages": db.get_chat_history(dataset_id)})
+
+
+@app.route("/api/datasets/<int:dataset_id>/clear", methods=["POST"])
+def dataset_clear(dataset_id):
+    """Clear the chat of ONE dataset (rows are hidden, not deleted)."""
+    if not _dataset_exists(dataset_id):
+        return jsonify({"error": "Unknown dataset."}), 404
+    db.clear_chat_history(dataset_id)
+    return jsonify({"cleared": True})
+
+
 if __name__ == "__main__":
     db.init_db()
     predict("hello")        # load the model now, so the first question is not slow

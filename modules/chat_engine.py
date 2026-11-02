@@ -66,7 +66,7 @@ def answer(dataset_id, message):
         traceback.print_exc()                          # show the real error in the terminal
         reply = rb.t(lang, "error")
     try:
-        db.save_chat_log(dataset_id, message, intent, confidence, reply)
+        db.save_chat_log(dataset_id, message, intent, confidence, reply, chart)
     except Exception:
         traceback.print_exc()
     return {"reply": reply, "chart": chart, "intent": intent,

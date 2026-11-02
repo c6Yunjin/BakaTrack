@@ -1,5 +1,5 @@
 // Page logic (Step 6c). Each dataset keeps its own messages in the browser.
-const state = { datasets: [], active: null, chats: {}, info: {} };
+const state = { datasets: [], active: null, chats: {}, info: {}, loaded: {} };
 const el = id => document.getElementById(id);
 const EN = ["January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"];
@@ -26,6 +26,26 @@ async function loadInfo(id) {
   return state.info[id];
 }
 
+async function loadHistory(id) {
+  if (state.loaded[id]) return;                    // load the saved chat only once per page load
+  try {
+    const res = await fetch("/api/datasets/" + id + "/history");
+    if (res.ok) {
+      const data = await res.json();
+      const items = [];
+      data.messages.forEach(m => {
+        if (!m.message || !m.message.trim()) return;
+        items.push({ who: "user", text: m.message });
+        const bot = { who: "bot", text: m.response, chart: m.chart || null };
+        if (m.intent) bot.meta = m.intent + " | " + Math.round(m.confidence * 100) + "%";
+        items.push(bot);
+      });
+      state.chats[id] = items;
+    }
+  } catch (err) { /* offline: start with an empty chat */ }
+  state.loaded[id] = true;
+}
+
 async function loadDatasets(selectId) {
   const res = await fetch("/api/datasets");
   state.datasets = await res.json();
@@ -38,6 +58,7 @@ async function loadDatasets(selectId) {
 async function selectDataset(id) {
   state.active = id;
   await loadInfo(id);
+  await loadHistory(id);
   closeSidebar();
   renderSidebar();
   renderHeader();
@@ -170,6 +191,15 @@ el("menu-btn").onclick = () => {
   el("scrim").classList.add("show");
 };
 el("scrim").onclick = closeSidebar;
+
+el("clear-btn").onclick = async () => {
+  if (state.active === null) return;
+  if (!confirm("Clear this chat? The questions stay saved in the database.")) return;
+  const id = state.active;
+  await fetch("/api/datasets/" + id + "/clear", { method: "POST" });
+  state.chats[id] = [];
+  renderChat();
+};
 
 el("new-dataset").onclick = () => {
   el("upload-errors").innerHTML = "";

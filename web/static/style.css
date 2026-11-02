@@ -96,3 +96,6 @@ dialog input[type=file] { width: 100%; font-size: 14px; }
              border: 1px solid var(--silver); border-radius: 12px; padding: 12px; margin: 10px 0 4px; }
 
 .footer-note { margin-top: 0.7em; font-size: 0.82em; opacity: 0.65; }
+
+.clear-btn { margin-left: auto; margin-right: 0.6em; padding: 0.35em 0.8em; border: 1px solid currentColor; border-radius: 0.6em; background: transparent; color: inherit; opacity: 0.7; font-size: 0.85em; cursor: pointer; }
+.clear-btn:hover { opacity: 1; }
