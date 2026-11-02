@@ -108,6 +108,7 @@ function renderChat() {
   list.forEach(m => {
     if (m.who === "user") { box.appendChild(make("div", "user-msg", m.text)); return; }
     const div = make("div", "bot-msg" + (m.pending ? " pending" : ""), m.text);
+    if (m.chart) div.appendChild(chartBox(m.chart));
     if (m.meta) div.appendChild(make("span", "meta", m.meta));
     box.appendChild(div);
   });
@@ -135,6 +136,7 @@ async function sendMessage(text) {
     const data = await res.json();
     if (res.ok) {
       pending.text = data.reply;
+      pending.chart = data.chart || null;
       pending.meta = data.intent + " | " + Math.round(data.confidence * 100) + "% | " + data.seconds + "s";
     } else {
       pending.text = data.error || "Something went wrong.";
