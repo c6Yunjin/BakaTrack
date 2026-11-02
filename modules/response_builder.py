@@ -185,3 +185,23 @@ TEXT["fil"].update({
     "rate_need_more": "Kailangan ko ng hindi bababa sa {min} buwan ng talaan para mag-rate ng presyo, at {n} lang ang meron ang dataset na ito.",
     "rate_no_month": "Walang talaan para sa {label}, kaya hindi ko ito ma-rate.",
 })
+
+
+TEXT["en"].update({
+    "fc_main": "Forecast for {label}: price about {price} per kilo, total about {kilos}, head count about {heads}.",
+    "fc_how": "Each value uses the simple method (average of the last 3 months, or trend line) that had the smaller error when tested on the last {k} known months. {detail}.",
+    "fc_item": "{name}: {method}, error {error}",
+    "fc_method_average": "average of last 3 months",
+    "fc_method_trend": "trend line",
+    "fc_footer": "Based on {n} months of records ({first} to {last}). This is an estimate, a guide only and not a guarantee. No seasonal pattern is claimed.",
+    "fc_need_more": "I need at least {min} months of records to make a forecast, and this dataset has {n}.",
+})
+TEXT["fil"].update({
+    "fc_main": "Pagtataya para sa {label}: presyo na humigit-kumulang {price} kada kilo, kabuuang humigit-kumulang {kilos}, at bilang ng ulo na humigit-kumulang {heads}.",
+    "fc_how": "Ang bawat halaga ay gumagamit ng simpleng paraan (average ng huling 3 buwan, o linya ng takbo) na mas maliit ang error nang subukan sa huling {k} buwan. {detail}.",
+    "fc_item": "{name}: {method}, error {error}",
+    "fc_method_average": "average ng huling 3 buwan",
+    "fc_method_trend": "linya ng takbo",
+    "fc_footer": "Batay sa {n} buwan ng talaan ({first} hanggang {last}). Pagtataya lamang ito, gabay at hindi garantiya. Walang inaangking pana-panahong pattern.",
+    "fc_need_more": "Kailangan ko ng hindi bababa sa {min} buwan ng talaan para magtaya, at {n} lang ang meron ang dataset na ito.",
+})
