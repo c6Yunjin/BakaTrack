@@ -103,3 +103,24 @@ def get_records(dataset_id, start_date=None, end_date=None):
     rows = conn.execute(query, params).fetchall()
     conn.close()
     return [dict(r) for r in rows]
+
+
+def get_latest_date(dataset_id):
+    """Date of the newest record in ONE dataset (None if it has no records)."""
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT MAX(date) AS latest FROM auction_records WHERE dataset_id = ?",
+        (dataset_id,)).fetchone()
+    conn.close()
+    return row["latest"]
+
+
+def save_chat_log(dataset_id, message, intent, confidence, response):
+    """Save one question and its answer in the chat_logs table."""
+    conn = get_connection()
+    conn.execute(
+        "INSERT INTO chat_logs (dataset_id, message, detected_intent, confidence, response) "
+        "VALUES (?, ?, ?, ?, ?)",
+        (dataset_id, message, intent, confidence, response))
+    conn.commit()
+    conn.close()
