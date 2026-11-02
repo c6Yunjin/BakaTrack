@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BakaTrack PH</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>BakaTrack PH</h1>
+    <p class="note">Answers come only from the data loaded in the selected tab. Tabs marked (SAMPLE) hold fake demo data.</p>
+  </header>
+
+  <nav id="tabs"></nav>
+
+  <section id="upload-panel" hidden>
+    <form id="upload-form">
+      <p>Upload a CSV with columns: date (YYYY-MM-DD), head_count, total_kilos, price_per_kilo.</p>
+      <input type="text" id="upload-name" placeholder="Tab name, e.g. Manila" required>
+      <input type="file" id="upload-file" accept=".csv" required>
+      <button type="submit">Upload</button>
+      <button type="button" id="upload-cancel">Cancel</button>
+      <ul id="upload-errors"></ul>
+    </form>
+  </section>
+
+  <main>
+    <div id="messages"></div>
+    <form id="chat-form">
+      <input type="text" id="chat-input" placeholder="Ask about kilos, head count or prices..." autocomplete="off">
+      <button type="submit" id="send-btn">Send</button>
+    </form>
+  </main>
+
+  <footer>Forecasts and ratings (coming) are a guide only. Please confirm important decisions with the market office.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
