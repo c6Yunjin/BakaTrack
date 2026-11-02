@@ -157,3 +157,31 @@ def build_answer(intent, lang, parsed, summary):
         lines += _trend(lang, summary, metric, name)
 
     return "\n".join(lines + _footer(lang, parsed, summary, metric))
+
+
+TEXT["en"].update({
+    "rate_main_above": "The average price in {label} is \u20b1{price} per kilo, {pct}% above the overall average of \u20b1{hist}.",
+    "rate_main_below": "The average price in {label} is \u20b1{price} per kilo, {pct}% below the overall average of \u20b1{hist}.",
+    "rate_main_same": "The average price in {label} is \u20b1{price} per kilo, about the same as the overall average of \u20b1{hist}.",
+    "rate_result": "Price rating: {rating} (fuzzy score {score}/100). {advice}",
+    "rating_low": "Low", "rating_normal": "Normal", "rating_high": "High",
+    "advice_low": "Buyers have the advantage.",
+    "advice_normal": "The market looks stable.",
+    "advice_high": "Sellers have the advantage.",
+    "rate_footer": "Based on {n} months of records ({first} to {last}), prices weighted by kilos. Membership: Low {low}, Normal {normal}, High {high}. Guide only, not a guarantee.",
+    "rate_need_more": "I need at least {min} months of records to rate a price, and this dataset has {n}.",
+    "rate_no_month": "There are no records for {label}, so I cannot rate it.",
+})
+TEXT["fil"].update({
+    "rate_main_above": "Ang average na presyo noong {label} ay \u20b1{price} kada kilo, {pct}% na mas mataas kaysa sa kabuuang average na \u20b1{hist}.",
+    "rate_main_below": "Ang average na presyo noong {label} ay \u20b1{price} kada kilo, {pct}% na mas mababa kaysa sa kabuuang average na \u20b1{hist}.",
+    "rate_main_same": "Ang average na presyo noong {label} ay \u20b1{price} kada kilo, halos pareho sa kabuuang average na \u20b1{hist}.",
+    "rate_result": "Antas ng presyo: {rating} (fuzzy score {score}/100). {advice}",
+    "rating_low": "Mababa", "rating_normal": "Normal", "rating_high": "Mataas",
+    "advice_low": "Mas may kalamangan ang mga mamimili.",
+    "advice_normal": "Mukhang matatag ang merkado.",
+    "advice_high": "Mas may kalamangan ang mga nagbebenta.",
+    "rate_footer": "Batay sa {n} buwan ng talaan ({first} hanggang {last}), presyong may timbang batay sa kilo. Membership: Low {low}, Normal {normal}, High {high}. Gabay lamang, hindi garantiya.",
+    "rate_need_more": "Kailangan ko ng hindi bababa sa {min} buwan ng talaan para mag-rate ng presyo, at {n} lang ang meron ang dataset na ito.",
+    "rate_no_month": "Walang talaan para sa {label}, kaya hindi ko ito ma-rate.",
+})

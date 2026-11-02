@@ -8,13 +8,13 @@ import time
 import traceback
 
 from database import db
-from modules import chart_maker, query_engine, response_builder as rb
+from modules import chart_maker, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
 from nlp.intent_classifier import predict
 from nlp.language import detect_language
 
 STATIC_INTENTS = {"greeting", "goodbye", "help", "upload_help", "out_of_scope"}
-NOT_READY_INTENTS = {"forecast", "price_rating"}      # built in later steps
+NOT_READY_INTENTS = {"forecast"}      # built in later steps
 
 
 def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
@@ -32,6 +32,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
     if latest is None:
         return rb.t(lang, "empty_dataset"), None
     parsed = parse_query(message, latest)
+    if intent == "price_rating":              # rates against the whole dataset history
+        return fuzzy_rater.rate_answer(dataset_id, lang, parsed), None
     summary = query_engine.get_summary(dataset_id, parsed["start"], parsed["end"])
     if not summary["has_data"]:                        # no-data message, no chart, no invented numbers
         return rb.t(lang, "no_data", start=parsed["start"], end=parsed["end"]), None
