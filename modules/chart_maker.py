@@ -9,7 +9,8 @@ import re
 from modules import query_engine as qe
 from modules import response_builder as rb
 
-CHART_LINE = {"en": "Chart: {name} per month.", "fil": "Tsart: {name} kada buwan."}
+CHART_LINE = {"en": "Chart: {name} per month.", "fil": "Tsart: {name} kada buwan.",
+              "taglish": "Chart: {name} kada buwan."}
 
 
 def chart_type_for(metric, message=""):

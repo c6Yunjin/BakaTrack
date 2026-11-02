@@ -1,7 +1,10 @@
-"""Language detector (hand-written, no AI): decides English or Filipino for the reply.
+"""Language detector (hand-written, no AI): decides English, Filipino or Taglish for the reply.
 
-It counts Filipino marker words and English marker words. The bigger count wins.
-A tie (or no marker words) gives English. Taglish goes to whichever side has more words.
+It counts Filipino marker words and English marker words.
+- 1 or more Filipino AND 2 or more English words -> 'taglish'
+- otherwise the bigger count wins ('fil' or 'en')
+- a tie (or no marker words) gives English
+Month names are NOT counted, because people use them in every language.
 """
 import re
 
@@ -9,7 +12,6 @@ FILIPINO_WORDS = set("""
 ilang ilan ano anong ang ng mga sa na noong ngayon ngayong buwan presyo magkano
 pinakamataas pinakamababa mula hanggang taon ulo kumusta salamat paalam tulong
 paano bakit kailan nakaraang nakaraan ba po ako ko mo ipakita pakita gaano
-enero pebrero marso abril mayo hunyo hulyo agosto setyembre oktubre nobyembre disyembre
 """.split())
 
 ENGLISH_WORDS = set("""
@@ -19,8 +21,10 @@ hello hi thanks thank bye help total last this next compare chart year are can y
 
 
 def detect_language(text):
-    """Returns 'fil' or 'en'."""
+    """Returns 'fil', 'en' or 'taglish'."""
     words = re.findall(r"[a-zñ]+", str(text).lower())
     fil = sum(1 for w in words if w in FILIPINO_WORDS)
     eng = sum(1 for w in words if w in ENGLISH_WORDS)
+    if fil >= 1 and eng >= 2:          # both languages clearly present
+        return "taglish"
     return "fil" if fil > eng else "en"

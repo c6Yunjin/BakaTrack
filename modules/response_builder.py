@@ -225,3 +225,57 @@ def _footer_line(lang, parsed, summary, metric):
     else:
         period = t(lang, "footer_many", first=first, last=last, n=summary["months_used"])
     return " ".join([period] + _footer(lang, parsed, summary, metric))
+
+
+# ---------- Taglish (third reply language) ----------
+TEXT["taglish"] = dict(TEXT["fil"])          # start from Filipino, then replace every line
+TEXT["taglish"].update({
+    "greeting": "Hi! Ako si BakaTrack. Tanungin mo ako tungkol sa kilos, head count at presyo ng baka mula sa data ng dataset na ito.",
+    "goodbye": "Bye! Paki-confirm pa rin sa market office ang mahahalagang desisyon.",
+    "help": "Pwede mong itanong: total kilos, head count, highest o lowest month, price comparison ng dalawang buwan, at price trend. Example: \"Show prices from January to June 2026\".",
+    "upload_help": "Para mag-add ng data, i-click ang + at mag-upload ng CSV na may columns na: date (YYYY-MM-DD), head_count, total_kilos, price_per_kilo. Kapag may mali, sasabihin ko at walang masesave.",
+    "out_of_scope": "Sorry, cattle volume at presyo lang ang masasagot ko mula sa loaded data.",
+    "referral": "Hindi ako sure kung naintindihan ko (confidence {conf}%). Paki-rephrase, o magtanong sa market administration o sa Municipal Agriculture Office.",
+    "no_data": "Walang records mula {start} hanggang {end} sa dataset na ito, kaya hindi ako makakasagot. Try mo ang ibang date range.",
+    "empty_dataset": "Wala pang records ang dataset na ito. Mag-upload ng CSV gamit ang + button.",
+    "empty_message": "Paki-type ang tanong mo.",
+    "error": "Sorry, may problema sa side ko. Try mo ulit.",
+    "coming": "Hindi pa available ang feature na ito sa version na ito.",
+    "range_line": "Saklaw: {start} hanggang {end}, {n} buwan ng records ang ginamit.",
+    "total_line": "{name}: {value}",
+    "peak_line": "Pinakamataas na {name}: {label} ({value}).",
+    "lowest_line": "Pinakamababang {name}: {label} ({value}).",
+    "need_two": "Paki-sabi ang dalawang buwan na ico-compare, halimbawa: \"Compare prices of March and June 2026\".",
+    "compare_missing": "Walang records para sa: {months}. Hindi ako makaka-compare kung wala ito.",
+    "compare_line": "Mas {direction} ang {name} noong {b_label} kaysa noong {a_label}: {b_val} vs {a_val} (difference {diff}, {pct}).",
+    "compare_same": "Pareho ang {name} noong {a_label} at {b_label}: {a_val}.",
+    "up": "mataas", "down": "mababa",
+    "need_trend": "Kailangan ko ng at least 2 buwan ng records sa range na iyon para ipakita ang trend.",
+    "trend_up": "Mula {first} hanggang {last}, tumaas ang {name} ng {diff} ({pct}).",
+    "trend_down": "Mula {first} hanggang {last}, bumaba ang {name} ng {diff} ({pct}).",
+    "trend_flat": "Mula {first} hanggang {last}, hindi nagbago ang {name}.",
+    "price_note": "Ang price ay average na weighted by kilos.",
+    "gap_note": "Walang records para sa mga buwang ito (hindi pinunan): {months}.",
+    "rate_main_above": "Ang average na price noong {label} ay \u20b1{price} per kilo, {pct}% na mas mataas kaysa sa overall average na \u20b1{hist}.",
+    "rate_main_below": "Ang average na price noong {label} ay \u20b1{price} per kilo, {pct}% na mas mababa kaysa sa overall average na \u20b1{hist}.",
+    "rate_main_same": "Ang average na price noong {label} ay \u20b1{price} per kilo, halos pareho sa overall average na \u20b1{hist}.",
+    "rate_result": "Price rating: {rating} (fuzzy score {score}/100). {advice}",
+    "rating_low": "Low", "rating_normal": "Normal", "rating_high": "High",
+    "advice_low": "Mas may advantage ang mga buyer.",
+    "advice_normal": "Mukhang stable ang market.",
+    "advice_high": "Mas may advantage ang mga seller.",
+    "rate_footer": "Batay sa {n} buwan ng records ({first} hanggang {last}), prices weighted by kilos. Membership: Low {low}, Normal {normal}, High {high}. Gabay lang, hindi garantiya.",
+    "rate_need_more": "Kailangan ko ng at least {min} buwan ng records para mag-rate ng price, at {n} lang ang meron ang dataset na ito.",
+    "rate_no_month": "Walang records para sa {label}, kaya hindi ko ito ma-rate.",
+    "fc_main": "Forecast para sa {label}: price na mga {price} per kilo, total na mga {kilos}, at head count na mga {heads}.",
+    "fc_how": "Ang bawat value ay gumagamit ng simpleng method (average ng last 3 months, o trend line) na mas maliit ang error nang i-test sa last {k} known months. {detail}.",
+    "fc_item": "{name}: {method}, error {error}",
+    "fc_method_average": "average ng last 3 months",
+    "fc_method_trend": "trend line",
+    "fc_footer": "Batay sa {n} buwan ng records ({first} hanggang {last}). Estimate lang ito, gabay at hindi garantiya. Walang seasonal pattern na inaangkin.",
+    "fc_need_more": "Kailangan ko ng at least {min} buwan ng records para mag-forecast, at {n} lang ang meron ang dataset na ito.",
+    "footer_many": "Period: {first} hanggang {last} ({n} buwan ng records ang ginamit).",
+    "footer_one": "Period: {label} (1 buwan ng records ang ginamit).",
+})
+METRIC_NAME["taglish"] = {"total_kilos": "total kilos", "head_count": "head count",
+                          "price_per_kilo": "price per kilo"}
