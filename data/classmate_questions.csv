@@ -1,1 +1,33 @@
 text,intent
+yo,greeting
+good morning po,greeting
+musta,greeting
+hi po pwede magtanong,greeting
+ok thanks see you,goodbye
+sige salamat paalam,goodbye
+what can u do,help
+pano ka gamitin,help
+how do i add my own csv,upload_help
+paano mag add ng data file,upload_help
+how heavy were all the cows sold in june,total_kilos
+kilos total ng mayo 2026,total_kilos
+how many heads came in april 2026,head_count
+ilang baka ang dumating nitong march,head_count
+which month was the priciest,peak_month
+kailan pinakamahal ang baka,peak_month
+cheapest month this year,lowest_month
+anong buwan pinakamura,lowest_month
+is june pricier than april 2026,price_compare
+mas mura ba ang baka noong feb kaysa jan,price_compare
+has the price been going up lately,price_trend
+tumataas ba ang presyo nitong nakaraang 3 buwan,price_trend
+is now a good time to sell,price_rating
+mahal ba ang baka ngayon,price_rating
+what will the price be next month,forecast
+hulaan mo ang presyo sa susunod na buwan,forecast
+graph of kilos for 2026,show_chart
+pakita mo nga ang bar chart ng ulo ng baka,show_chart
+who won the basketball game,out_of_scope
+recipe for beef caldereta,out_of_scope
+ano ang presyo ng bigas,out_of_scope
+pwede ka ba mag translate ng essay,out_of_scope

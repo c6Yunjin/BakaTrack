@@ -1,0 +1,17 @@
+{
+  "TC-16": {
+    "status": 200,
+    "datasets_before": 3,
+    "datasets_after": 4,
+    "passed": true
+  },
+  "TC-17": {
+    "status": 400,
+    "errors_shown": [
+      "Missing column(s): price_per_kilo"
+    ],
+    "datasets_before": 3,
+    "datasets_after": 3,
+    "passed": true
+  }
+}
