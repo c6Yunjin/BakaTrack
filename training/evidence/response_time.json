@@ -1,0 +1,10 @@
+{
+  "test": "TC-18",
+  "dataset": "Padre Garcia (SAMPLE)",
+  "questions": 20,
+  "average_seconds": 0.0148,
+  "slowest_seconds": 0.0303,
+  "fastest_seconds": 0.0059,
+  "target_seconds": 2.0,
+  "passed": true
+}
