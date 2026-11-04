@@ -36,7 +36,9 @@ JOKE = {"tell me a joke", "tell a joke", "joke", "another joke", "tell me anothe
         "tell me joke", "magbiro ka", "pabiro", "magbiro ka ulit", "magkwento ka ng joke"}
 WHO = {"who made you", "who built you", "who created you", "who developed you",
        "who is your developer", "who is your creator", "sino gumawa sayo", "sino gumawa sa iyo",
-       "sino ang gumawa sayo", "sino ang gumawa sa iyo"}
+       "sino ang gumawa sayo", "sino ang gumawa sa iyo",
+       "who made this", "who are your creators", "who are the creators", "who are the developers",
+       "sino gumawa nito", "sino ang gumawa nito", "credits", "creators"}
 GRADE = {"1 0", "10", "grade me", "give me 1 0", "give me a 1 0", "pass us", "pasado na"}
 LIFE = {"meaning of life", "what is the meaning of life", "whats the meaning of life",
         "the meaning of life", "ano ang kahulugan ng buhay"}
@@ -61,8 +63,8 @@ REPLIES = {
                       "fil": "Na-rickroll ka! \U0001F604 Pindutin ang X o Esc para isara ang video."},
     INTENT_COWS: {"en": "Moo-ve over, here come the cows! \U0001F404",
                   "fil": "Padaan ang mga baka! \U0001F404"},
-    INTENT_WHO: {"en": "I was built from scratch as a final project for CS 312 and CSE 103. Ask my developer for the details!",
-                 "fil": "Binuo ako mula sa simula bilang final project para sa CS 312 at CSE 103. Itanong mo sa developer ko para sa mga detalye!"},
+    INTENT_WHO: {"en": "I was built from scratch as a final project for CS 312 and CSE 103 by Aldred Gozos, Jakielyn Escalera Fuentes, John Paul Limbo, John Wayne Magnaye, Kurt Cedrick Largo, Mike Kasilag and Ralph Chester Hosmillo.",
+                 "fil": "Binuo ako mula sa simula bilang final project para sa CS 312 at CSE 103 nina Aldred Gozos, Jakielyn Escalera Fuentes, John Paul Limbo, John Wayne Magnaye, Kurt Cedrick Largo, Mike Kasilag at Ralph Chester Hosmillo."},
     INTENT_GRADE: {"en": "That is up to the panel, but all my tests pass. \U0001F604",
                    "fil": "Panel ang magpapasya niyan, pero pasado ang lahat ng test ko. \U0001F604"},
     INTENT_LIFE: {"en": "42. But for the price per kilo, ask me about the data. \U0001F604",
