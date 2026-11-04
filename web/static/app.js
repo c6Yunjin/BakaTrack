@@ -94,7 +94,27 @@ function renderHeader() {
   }
 }
 
-function exampleQuestions(info) {
+function exampleQuestions(info, id) {
+  if (!info || !info.first_date || !info.last_date) return exampleQuestionsOld(info);
+  const fy = Number(info.first_date.slice(0, 4)), fm = Number(info.first_date.slice(5, 7));
+  const ly = Number(info.last_date.slice(0, 4)), lm = Number(info.last_date.slice(5, 7));
+  const months = (ly - fy) * 12 + (lm - fm) + 1;
+  const at = k => { const t = fy * 12 + (fm - 1) + k; return [Math.floor(t / 12), t % 12]; };
+  const [my, mm] = at(Math.floor(months / 2));
+  const [ny, nm] = at(Math.floor(months / 2) + 1);
+  const pool = ["What dates do you have?", "Anong buwan pinakamataas ang presyo?",
+    "Ilang kilo ang na-trade noong " + FIL[mm] + " " + my + "?"];
+  if (months >= 3) pool.push("Compare prices of " + EN[mm] + " " + my + " and " + EN[nm] + " " + ny);
+  if (months >= 3) pool.push("Is the price high or low now?");
+  if (months >= 24) pool.push("Total kilos in " + my + "?");
+  if (months >= 6) pool.push("I-forecast ang presyo next month");
+  pool.push("Which month has the lowest price?");
+  if (months >= 2) pool.push("Show a chart of prices for the last 6 months");
+  const s = (Number(id) || 0) % pool.length;
+  return pool.slice(s).concat(pool.slice(0, s)).slice(0, 3);
+}
+
+function exampleQuestionsOld(info) {
   const base = ["Anong buwan pinakamataas ang presyo?"];
   if (!info || !info.last_date) return base;
   // chips use the newest months in the data, so they always find records
@@ -111,7 +131,7 @@ function emptyState(d, info) {
   box.appendChild(make("p", "", d ? "Try one of these, or type your own question in English, Filipino or Taglish."
                                   : "Upload a CSV to create your first dataset."));
   const chips = make("div", "chips");
-  if (d) exampleQuestions(info).forEach(q => {
+  if (d) exampleQuestions(info, d.id).forEach(q => {
     const c = make("button", "chip", q);
     c.type = "button";
     c.onclick = () => sendMessage(q);
