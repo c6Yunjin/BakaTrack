@@ -289,18 +289,21 @@ TEXT["en"].update({
     "note_swapped": "The dates were in reverse order, so I swapped them.",
     "note_default_range": "No dates were given, so I used the latest 6 months of data: {range}.",
     "note_no_metric": "No metric was given, so I assumed price.",
+    "note_all_data": "No dates were given, so I used all {months} months of data: {range}.",
 })
 TEXT["fil"].update({
     "note_relative": "Ang mga petsa ay binibilang mula sa pinakabagong talaan sa datos ({latest}).",
     "note_swapped": "Magkabaligtad ang pagkakasunod ng mga petsa, kaya pinalitan ko ang ayos.",
     "note_default_range": "Walang binanggit na petsa, kaya ginamit ko ang pinakabagong 6 na buwan ng datos: {range}.",
     "note_no_metric": "Walang binanggit na sukatan, kaya ipinalagay kong presyo.",
+    "note_all_data": "Walang binanggit na petsa, kaya ginamit ko ang lahat ng {months} buwan ng datos: {range}.",
 })
 TEXT["taglish"].update({
     "note_relative": "Ang dates ay binibilang mula sa latest record sa data ({latest}).",
     "note_swapped": "Baligtad ang order ng dates, kaya pinalitan ko.",
     "note_default_range": "Walang binanggit na petsa, kaya ginamit ko ang latest 6 months ng data: {range}.",
     "note_no_metric": "Walang binanggit na metric, kaya nag-assume ako ng price.",
+    "note_all_data": "Walang binanggit na petsa, kaya ginamit ko ang lahat ng {months} months ng data: {range}.",
 })
 
 FIL_MONTHS = {"January": "Enero", "February": "Pebrero", "March": "Marso", "April": "Abril",

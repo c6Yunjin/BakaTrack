@@ -11,7 +11,7 @@ from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
 from nlp.intent_classifier import predict
-from modules import data_view, easter_eggs, smalltalk
+from modules import data_view, dataset_info, easter_eggs, smalltalk
 from nlp.language import detect_language
 
 STATIC_INTENTS = {"greeting", "goodbye", "help", "upload_help", "out_of_scope"}
@@ -26,6 +26,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return rb.t(lang, "referral", conf=round(confidence * 100)), None
     if intent in easter_eggs.INTENTS:                  # easter egg reply
         return easter_eggs.reply(intent, message, lang)
+    if intent in dataset_info.INTENTS:                 # where this dataset starts and ends
+        return dataset_info.reply(dataset_id, lang), None
     if intent in data_view.INTENTS:                    # data table request
         return data_view.reply(dataset_id, intent, lang, message)
     if intent in smalltalk.INTENTS:                    # small talk rule: friendly reply
@@ -39,6 +41,10 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
     if latest is None:
         return rb.t(lang, "empty_dataset"), None
     parsed = parse_query(message, latest)
+    empty_range = dataset_info.out_of_range(dataset_id, lang, intent, parsed)
+    if empty_range:                                    # say where the data really runs
+        return empty_range, None
+    parsed = dataset_info.use_all_data(dataset_id, lang, intent, parsed)
     if intent == "price_rating":              # rates against the whole dataset history
         return fuzzy_rater.rate_answer(dataset_id, lang, parsed), None
     if intent == "forecast":                  # forecasts from this dataset's own months
@@ -67,6 +73,8 @@ def answer(dataset_id, message):
         rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
     if not rule:
         rule = data_view.match(message)         # 'show the data' requests
+    if not rule:
+        rule = dataset_info.match(message)      # 'what dates do you have?'
     if rule and rule_lang:
         lang = rule_lang
     intent, confidence, is_confident = None, 0.0, False
