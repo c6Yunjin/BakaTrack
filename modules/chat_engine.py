@@ -11,7 +11,7 @@ from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
 from nlp.intent_classifier import predict
-from modules import data_view, smalltalk
+from modules import data_view, easter_eggs, smalltalk
 from nlp.language import detect_language
 
 STATIC_INTENTS = {"greeting", "goodbye", "help", "upload_help", "out_of_scope"}
@@ -24,6 +24,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return rb.t(lang, "empty_message"), None
     if not is_confident:                               # 60% rule: referral message
         return rb.t(lang, "referral", conf=round(confidence * 100)), None
+    if intent in easter_eggs.INTENTS:                  # easter egg reply
+        return easter_eggs.reply(intent, message, lang)
     if intent in data_view.INTENTS:                    # data table request
         return data_view.reply(dataset_id, intent, lang)
     if intent in smalltalk.INTENTS:                    # small talk rule: friendly reply
@@ -60,7 +62,9 @@ def answer(dataset_id, message):
     """Answer one question for one dataset. Returns a dict for the web page."""
     started = time.time()
     lang = detect_language(message)
-    rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
+    rule, rule_lang = easter_eggs.match(message), None   # easter eggs first
+    if not rule:
+        rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
     if not rule:
         rule = data_view.match(message)         # 'show the data' requests
     if rule and rule_lang:
