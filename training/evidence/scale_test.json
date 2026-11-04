@@ -1,0 +1,16 @@
+{
+  "5000": {
+    "upload_seconds": 0.055,
+    "average_answer_seconds": 0.0166,
+    "slowest_answer_seconds": 0.0229,
+    "questions": 8,
+    "passed": true
+  },
+  "50000": {
+    "upload_seconds": 0.356,
+    "average_answer_seconds": 0.0966,
+    "slowest_answer_seconds": 0.1671,
+    "questions": 8,
+    "passed": true
+  }
+}
