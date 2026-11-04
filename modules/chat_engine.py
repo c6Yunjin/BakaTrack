@@ -11,6 +11,7 @@ from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
 from nlp.intent_classifier import predict
+from modules import smalltalk
 from nlp.language import detect_language
 
 STATIC_INTENTS = {"greeting", "goodbye", "help", "upload_help", "out_of_scope"}
@@ -23,6 +24,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return rb.t(lang, "empty_message"), None
     if not is_confident:                               # 60% rule: referral message
         return rb.t(lang, "referral", conf=round(confidence * 100)), None
+    if intent in smalltalk.INTENTS:                    # small talk rule: friendly reply
+        return smalltalk.reply(intent, lang), None
     if intent in STATIC_INTENTS:
         return rb.t(lang, intent), None
     if intent in NOT_READY_INTENTS:
@@ -55,10 +58,15 @@ def answer(dataset_id, message):
     """Answer one question for one dataset. Returns a dict for the web page."""
     started = time.time()
     lang = detect_language(message)
+    rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
+    if rule and rule_lang:
+        lang = rule_lang
     intent, confidence, is_confident = None, 0.0, False
     chart = None
     try:
-        if message.strip():
+        if rule:
+            intent, confidence, is_confident = rule, 1.0, True
+        elif message.strip():
             intent, confidence, is_confident = predict(message)
         reply, chart = _reply_for(dataset_id, message, lang, intent, confidence, is_confident)
         reply = rb.localize_months(lang, reply)
