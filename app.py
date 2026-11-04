@@ -102,7 +102,7 @@ def dataset_export(dataset_id):
     if kind not in ("monthly", "raw"):
         return jsonify({"error": "kind must be monthly or raw."}), 400
     safe = re.sub(r"[^A-Za-z0-9_-]+", "_", match[0]["name"]).strip("_") or "dataset"
-    return Response(data_view.export_csv(dataset_id, kind), mimetype="text/csv",
+    return Response(data_view.export_csv(dataset_id, kind, request.args.get("start"), request.args.get("end")), mimetype="text/csv",
                     headers={"Content-Disposition": 'attachment; filename="%s_%s.csv"' % (safe, kind)})
 
 

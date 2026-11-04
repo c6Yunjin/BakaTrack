@@ -27,7 +27,7 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
     if intent in easter_eggs.INTENTS:                  # easter egg reply
         return easter_eggs.reply(intent, message, lang)
     if intent in data_view.INTENTS:                    # data table request
-        return data_view.reply(dataset_id, intent, lang)
+        return data_view.reply(dataset_id, intent, lang, message)
     if intent in smalltalk.INTENTS:                    # small talk rule: friendly reply
         return smalltalk.reply(intent, lang), None
     if intent in STATIC_INTENTS:

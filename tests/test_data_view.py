@@ -30,7 +30,7 @@ def test_requests_match():
 def test_real_questions_are_never_taken_over():
     assert data_view.match("Show cattle prices from January to June 2026") is None
     assert data_view.match("how many kilos in June 2026?") is None
-    assert data_view.match("show the data for 2025") is None
+    assert data_view.match("show the data for 2025") == "show_data_raw"   # a date range is now allowed
     assert data_view.match("thank you") is None
     assert data_view.match("ok") is None
 
