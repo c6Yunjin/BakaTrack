@@ -1,4 +1,5 @@
 // Page logic (Step 6c). Each dataset keeps its own messages in the browser.
+const SHOW_DEBUG = location.search.indexOf("debug") !== -1;   // add ?debug to the address to see intent and confidence
 const state = { datasets: [], active: null, chats: {}, info: {}, loaded: {} };
 const el = id => document.getElementById(id);
 const EN = ["January", "February", "March", "April", "May", "June", "July",
@@ -143,8 +144,8 @@ function renderChat() {
     const parts = splitFooter(m.text);
     const div = make("div", "bot-msg" + (m.pending ? " pending" : ""), parts.main);
     if (parts.footer) div.appendChild(make("div", "footer-note", parts.footer));
-    if (m.chart) div.appendChild(chartBox(m.chart));
-    if (m.meta) div.appendChild(make("span", "meta", m.meta));
+    if (m.chart) div.appendChild(widgetBox(m.chart));
+    if (m.meta && SHOW_DEBUG) div.appendChild(make("span", "meta", m.meta));
     box.appendChild(div);
   });
   const scroller = el("chat-scroll");

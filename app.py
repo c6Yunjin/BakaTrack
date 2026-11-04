@@ -1,11 +1,12 @@
 """BakaTrack web app (Step 6b). Flask serves the page and three small routes."""
 import os
+import re
 import tempfile
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 
 from database import db
-from modules import chat_engine
+from modules import chat_engine, data_view
 from modules.csv_upload import upload_dataset
 from nlp.intent_classifier import predict
 
@@ -89,6 +90,20 @@ def dataset_clear(dataset_id):
         return jsonify({"error": "Unknown dataset."}), 404
     db.clear_chat_history(dataset_id)
     return jsonify({"cleared": True})
+
+
+@app.route("/api/datasets/<int:dataset_id>/export.csv")
+def dataset_export(dataset_id):
+    """Download one dataset as CSV: the monthly summary or all raw records."""
+    match = [d for d in db.list_datasets() if d["id"] == dataset_id]
+    if not match:
+        return jsonify({"error": "Unknown dataset."}), 404
+    kind = request.args.get("kind", "monthly")
+    if kind not in ("monthly", "raw"):
+        return jsonify({"error": "kind must be monthly or raw."}), 400
+    safe = re.sub(r"[^A-Za-z0-9_-]+", "_", match[0]["name"]).strip("_") or "dataset"
+    return Response(data_view.export_csv(dataset_id, kind), mimetype="text/csv",
+                    headers={"Content-Disposition": 'attachment; filename="%s_%s.csv"' % (safe, kind)})
 
 
 if __name__ == "__main__":

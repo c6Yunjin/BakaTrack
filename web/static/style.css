@@ -99,3 +99,23 @@ dialog input[type=file] { width: 100%; font-size: 14px; }
 
 .clear-btn { margin-left: auto; margin-right: 0.6em; padding: 0.35em 0.8em; border: 1px solid currentColor; border-radius: 0.6em; background: transparent; color: inherit; opacity: 0.7; font-size: 0.85em; cursor: pointer; }
 .clear-btn:hover { opacity: 1; }
+
+/* data table inside a bot answer */
+.table-box { white-space: normal; width: min(660px, 100%); background: white; border: 1px solid var(--silver);
+             border-radius: 12px; padding: 12px; margin: 10px 0 4px; }
+.table-title { font-family: var(--serif); font-size: 16px; margin: 0 0 8px; }
+.table-wrap { overflow-x: auto; }
+.data-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.data-table th { background: var(--silver); color: var(--espresso); text-align: left; padding: 7px 10px;
+                 cursor: pointer; white-space: nowrap; user-select: none; }
+.data-table th:hover { background: var(--sepia); color: var(--silk); }
+.data-table td { padding: 6px 10px; border-bottom: 1px solid var(--silk); white-space: nowrap; }
+.data-table tbody tr:nth-child(even) { background: var(--silk); }
+.data-table .num { text-align: right; }
+.table-bar { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.table-info { font-size: 12px; color: var(--liver); margin-right: auto; }
+.table-btn { background: none; border: 1px solid var(--sepia); color: var(--espresso); border-radius: 8px;
+             padding: 5px 12px; font-size: 12px; cursor: pointer; text-decoration: none; }
+.table-btn:hover:not(:disabled) { background: var(--silver); }
+.table-btn:disabled { opacity: 0.4; cursor: default; }
+.table-note { font-size: 12px; color: var(--liver); margin-top: 8px; }
