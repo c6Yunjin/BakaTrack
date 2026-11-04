@@ -12,7 +12,7 @@ function eggBox(w) {
 }
 
 function runEgg(kind) {
-  if (kind === "rickroll") openVideoOverlay("/static/rickroll.mp4");
+  if (kind === "rickroll") openVideoOverlay("/static/rickroll.webm");
   else if (kind === "cows") runCows();
 }
 
@@ -28,7 +28,7 @@ function openVideoOverlay(src) {
   const missing = document.createElement("div");
   missing.className = "egg-missing";
   missing.hidden = true;
-  missing.textContent = "Video not found. Save your file as web/static/rickroll.mp4 and try again.";
+  missing.textContent = "Video not found. Save your file as web/static/rickroll.webm and try again.";
   const close = document.createElement("button");
   close.type = "button";
   close.className = "egg-close";
