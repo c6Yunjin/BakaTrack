@@ -99,5 +99,6 @@ function tableBox(w) {
 
 // Chooses the right widget for one bot answer: a table or a chart.
 function widgetBox(w) {
+  if (w && w.widget === "egg") return eggBox(w);
   return (w && w.widget === "table") ? tableBox(w) : chartBox(w);
 }

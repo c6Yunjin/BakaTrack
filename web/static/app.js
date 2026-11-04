@@ -173,6 +173,9 @@ async function sendMessage(text) {
     if (res.ok) {
       pending.text = data.reply;
       pending.chart = data.chart || null;
+      if (pending.chart && pending.chart.widget === "egg") {          // play it only for a fresh answer
+        setTimeout(() => runEgg(pending.chart.kind), 150);
+      }
       pending.meta = data.intent + " | " + Math.round(data.confidence * 100) + "% | " + data.seconds + "s";
     } else {
       pending.text = data.error || "Something went wrong.";
