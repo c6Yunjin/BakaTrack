@@ -6,6 +6,7 @@ The dataset_id is passed in every time, so tabs never mix.
 """
 import time
 import traceback
+from modules import market_rules
 
 from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
@@ -24,6 +25,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return rb.t(lang, "empty_message"), None
     if not is_confident:                               # 60% rule: referral message
         return rb.t(lang, "referral", conf=round(confidence * 100)), None
+    if intent in market_rules.INTENTS:                 # cattle-market rules
+        return market_rules.reply(dataset_id, message, intent, lang)
     if intent in easter_eggs.INTENTS:                  # easter egg reply
         return easter_eggs.reply(intent, message, lang)
     if intent in dataset_info.INTENTS:                 # where this dataset starts and ends
@@ -75,6 +78,8 @@ def answer(dataset_id, message):
         rule = data_view.match(message)         # 'show the data' requests
     if not rule:
         rule = dataset_info.match(message)      # 'what dates do you have?'
+    if not rule:
+        rule = market_rules.match(message)       # cattle-market questions the ANN misses
     if rule and rule_lang:
         lang = rule_lang
     intent, confidence, is_confident = None, 0.0, False
