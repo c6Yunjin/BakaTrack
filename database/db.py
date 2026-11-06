@@ -43,6 +43,7 @@ def init_db():
         );
     """)
     _ensure_chat_columns(conn)
+    _ensure_dataset_columns(conn)
     conn.commit()
     conn.close()
 
@@ -174,5 +175,30 @@ def clear_chat_history(dataset_id):
     conn = get_connection()
     _ensure_chat_columns(conn)
     conn.execute("UPDATE chat_logs SET hidden = 1 WHERE dataset_id = ?", (dataset_id,))
+    conn.commit()
+    conn.close()
+
+
+def _ensure_dataset_columns(conn):
+    """Old databases get a 'location' column on datasets. Nothing is deleted."""
+    have = [r["name"] for r in conn.execute("PRAGMA table_info(datasets)").fetchall()]
+    if have and "location" not in have:
+        conn.execute("ALTER TABLE datasets ADD COLUMN location TEXT")
+
+
+def get_dataset_location(dataset_id):
+    """The place a dataset comes from (for example 'Lipa City'), or None when not set."""
+    conn = get_connection()
+    _ensure_dataset_columns(conn)
+    row = conn.execute("SELECT location FROM datasets WHERE id = ?", (dataset_id,)).fetchone()
+    conn.commit()
+    conn.close()
+    return (row["location"] or None) if row else None
+
+
+def set_dataset_location(dataset_id, location):
+    conn = get_connection()
+    _ensure_dataset_columns(conn)
+    conn.execute("UPDATE datasets SET location = ? WHERE id = ?", (location or None, dataset_id))
     conn.commit()
     conn.close()

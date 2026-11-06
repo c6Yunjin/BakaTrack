@@ -6,6 +6,7 @@ import tempfile
 from flask import Flask, Response, jsonify, render_template, request
 
 from database import db
+from modules import places
 from modules import chat_engine, data_view
 from modules.csv_upload import upload_dataset
 from nlp.intent_classifier import predict
@@ -60,6 +61,9 @@ def upload():
         os.remove(handle.name)
     if errors:
         return jsonify({"errors": errors}), 400
+    location = places.canonical(request.form.get("location", ""))
+    if location:
+        db.set_dataset_location(dataset_id, location)
     return jsonify({"dataset_id": dataset_id, "name": name})
 
 
@@ -72,6 +76,8 @@ def dataset_info(dataset_id):
     info = db.get_dataset_info(dataset_id)
     info["name"] = match[0]["name"]
     info["is_sample"] = "SAMPLE" in match[0]["name"].upper()
+    info["location"] = db.get_dataset_location(dataset_id)
+    info["location_label"] = places.label(info["location"])
     return jsonify(info)
 
 
@@ -104,6 +110,12 @@ def dataset_export(dataset_id):
     safe = re.sub(r"[^A-Za-z0-9_-]+", "_", match[0]["name"]).strip("_") or "dataset"
     return Response(data_view.export_csv(dataset_id, kind, request.args.get("start"), request.args.get("end")), mimetype="text/csv",
                     headers={"Content-Disposition": 'attachment; filename="%s_%s.csv"' % (safe, kind)})
+
+
+@app.route("/api/places")
+def places_list():
+    """The places a dataset can come from (for the upload dropdown)."""
+    return jsonify({"places": places.all_places()})
 
 
 if __name__ == "__main__":

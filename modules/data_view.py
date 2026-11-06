@@ -95,7 +95,7 @@ def build_monthly(dataset_id, lang):
     rows = [[rb.localize_months(lang, m["label"]), m["total_kilos"], m["head_count"],
              m["price_per_kilo"], m["records"]] for m in months]
     text = TEXT["monthly"][lang].format(n=len(months), first=months[0]["label"], last=months[-1]["label"],
-                                        records=summary["records_used"])
+                                        records="{:,}".format(summary["records_used"]))
     widget = {"widget": "table", "kind": "monthly", "title": TEXT["title_monthly"][lang],
               "columns": [_col("month", lang, "label"), _col("kilos", lang, "kilos"),
                           _col("heads", lang, "int"), _col("price", lang, "price"),

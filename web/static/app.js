@@ -88,7 +88,8 @@ function renderHeader() {
   el("ds-badge").hidden = !(info && info.is_sample);
   if (info && info.records > 0) {
     el("ds-meta").textContent = info.records + " records, " +
-      monthLabel(info.first_date) + " to " + monthLabel(info.last_date);
+      monthLabel(info.first_date) + " to " + monthLabel(info.last_date) +
+      (info.location_label ? " \u00b7 " + info.location_label : "");
   } else {
     el("ds-meta").textContent = d ? "No records yet" : "Click + New dataset to start";
   }
@@ -237,6 +238,7 @@ el("upload-form").onsubmit = async e => {
   list.innerHTML = "";
   const form = new FormData();
   form.append("name", el("upload-name").value);
+  form.append("location", el("upload-location").value);
   form.append("file", el("upload-file").files[0]);
   const res = await fetch("/api/upload", { method: "POST", body: form });
   const data = await res.json();
@@ -249,4 +251,18 @@ el("upload-form").onsubmit = async e => {
   await loadDatasets(data.dataset_id);
 };
 
+async function loadPlaces() {
+  try {
+    const res = await fetch("/api/places");
+    if (!res.ok) return;
+    const data = await res.json();
+    const select = el("upload-location");
+    data.places.forEach(p => {
+      const option = make("option", "", p.label);
+      option.value = p.name;
+      select.appendChild(option);
+    });
+  } catch (err) { /* the dropdown just stays on "Location (optional)" */ }
+}
+loadPlaces();
 loadDatasets();

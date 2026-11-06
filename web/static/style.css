@@ -136,3 +136,5 @@ dialog input[type=file] { width: 100%; font-size: 14px; }
   50% { transform: translateX(55vw) rotate(6deg); }
   to { transform: translateX(calc(100vw + 120px)) rotate(-6deg); }
 }
+
+dialog select { width: 100%; padding: 10px; border: 1px solid var(--sepia); border-radius: 8px; margin-bottom: 10px; font-size: 14px; background: white; color: var(--espresso); }

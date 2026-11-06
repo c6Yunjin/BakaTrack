@@ -12,7 +12,7 @@ from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
 from nlp.intent_classifier import predict
-from modules import data_view, dataset_info, easter_eggs, smalltalk
+from modules import data_view, dataset_info, easter_eggs, location_rules, smalltalk
 from nlp.language import detect_language
 
 STATIC_INTENTS = {"greeting", "goodbye", "help", "upload_help", "out_of_scope"}
@@ -25,6 +25,11 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return rb.t(lang, "empty_message"), None
     if not is_confident:                               # 60% rule: referral message
         return rb.t(lang, "referral", conf=round(confidence * 100)), None
+    if intent in location_rules.INTENTS:               # dataset location questions
+        return location_rules.reply(dataset_id, message, intent, lang)
+    blocked = location_rules.scope_block(dataset_id, message, intent, lang)
+    if blocked:                                        # a place this dataset does not cover
+        return blocked, None
     if intent in market_rules.INTENTS:                 # cattle-market rules
         return market_rules.reply(dataset_id, message, intent, lang)
     if intent in easter_eggs.INTENTS:                  # easter egg reply
@@ -74,6 +79,8 @@ def answer(dataset_id, message):
     rule, rule_lang = easter_eggs.match(message), None   # easter eggs first
     if not rule:
         rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
+    if not rule:
+        rule = location_rules.match(message)    # 'show data for Lipa', 'where is this data from'
     if not rule:
         rule = data_view.match(message)         # 'show the data' requests
     if not rule:
