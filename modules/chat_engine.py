@@ -101,7 +101,14 @@ def answer(dataset_id, message):
             intent, confidence, is_confident = rule, 1.0, True
         elif message.strip():
             intent, confidence, is_confident = predict(message)
-        reply, chart = _reply_for(dataset_id, message, lang, intent, confidence, is_confident)
+        near = None
+        if not rule and message.strip() and (not is_confident or intent == "out_of_scope"):
+            near = knowledge_base.near_miss(message, lang)     # 'Did you mean...' for unsure matches
+        if near:
+            intent = "kb_near_miss"
+            reply, chart = near, None
+        else:
+            reply, chart = _reply_for(dataset_id, message, lang, intent, confidence, is_confident)
         reply = rb.localize_months(lang, reply)
     except Exception:
         traceback.print_exc()                          # show the real error in the terminal

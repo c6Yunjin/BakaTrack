@@ -9,6 +9,7 @@ import os
 import re
 
 from config import BASE_DIR
+from modules import matching
 
 KB_PATH = os.path.join(BASE_DIR, "data", "knowledge_base.json")
 with open(KB_PATH, encoding="utf-8") as f:
@@ -33,10 +34,10 @@ def _words(message):
     return [w for w in re.findall(r"[a-z0-9\u00f1]+", text) if w not in FILLERS]
 
 
-def match(message):
+def _keyword_match(message):
     """Returns 'kb_<id>' when a short question fits an entry, else None."""
     words = _words(message)
-    if not words or len(words) > 10 or set(words) & BLOCK_WORDS:
+    if not words or len(words) > 16 or set(words) & BLOCK_WORDS:
         return None
     found = set(words)
     for entry in ENTRIES:
@@ -52,3 +53,49 @@ def reply(intent, lang):
     lang = lang if lang in TEXT["general"] else "en"
     answer = entry["answers"].get(lang) or entry["answers"]["en"]
     return "%s%s\n\n%s%s" % (TEXT["general"][lang], answer, TEXT["source"][lang], entry["source"])
+
+
+# ---- similarity matching (handles new wordings, synonyms and small typos) ----
+EXAMPLES_PATH = os.path.join(BASE_DIR, "data", "kb_examples.json")
+TOPIC_WORDS = {"baka", "padre", "garcia", "batangas", "market", "trading", "festival", "friday"}
+DID_YOU_MEAN = {
+    "en": 'I am not sure what you mean. Did you mean: "{q}" If so, please ask it again.',
+    "fil": 'Hindi ako sigurado sa ibig mong sabihin. Ito ba ang itatanong mo: "{q}" Kung oo, itanong ulit.',
+    "taglish": 'Hindi ako sure sa ibig mong sabihin. Did you mean: "{q}" Kung oo, itanong ulit.',
+}
+_matcher = None
+
+
+def _get_matcher():
+    global _matcher
+    if _matcher is None:
+        with open(EXAMPLES_PATH, encoding="utf-8") as f:
+            _matcher = matching.Matcher(json.load(f), TOPIC_WORDS)
+    return _matcher
+
+
+def _blocked(message):
+    words = _words(message)
+    return (not words) or len(words) > 25 or bool(set(words) & BLOCK_WORDS)
+
+
+def match(message):
+    """Returns 'kb_<id>' for a clear match (new wording or old keywords), else None."""
+    if _blocked(message):
+        return None
+    kind, key, score = _get_matcher().decide(message)
+    if kind == "match":
+        return "kb_" + key
+    return _keyword_match(message)
+
+
+def near_miss(message, lang):
+    """A 'Did you mean...' sentence when the match is uncertain, else None."""
+    if _blocked(message) or match(message):
+        return None
+    kind, key, score = _get_matcher().decide(message)
+    if kind != "near":
+        return None
+    titles = _get_matcher().titles[key]
+    question = titles.get(lang) or titles["en"]
+    return DID_YOU_MEAN.get(lang, DID_YOU_MEAN["en"]).format(q=question)

@@ -1,0 +1,48 @@
+== should match ==
+HIT  | what or where is the cattle trading capital in the ph -> kb_capital
+HIT  | capital of cattle trading in the philippines -> kb_capital
+HIT  | which town is called the cattle capital -> kb_capital
+HIT  | cattle trading capital ph -> kb_capital
+HIT  | saan po ang cattle trading capital sa pinas -> kb_capital
+HIT  | anong bayan ang kabisera ng baka -> kb_capital
+HIT  | what is the cattle hub of the philippines -> kb_capital
+HIT  | saan yung cattle trading capital sa ph -> kb_capital
+HIT  | when did the bakahan begin -> kb_history
+HIT  | history of padre garcia cattle market -> kb_history
+HIT  | kailan po nagsimula ang bakahan sa padre garcia -> kb_history
+HIT  | who founded the bakahan -> kb_history
+HIT  | kasaysayan ng cattle trading sa padre garcia -> kb_history
+HIT  | what year was the cattle market founded -> kb_history
+HIT  | when is the festival of padre garcia -> kb_festival
+HIT  | kailan ang kabakahan festival -> kb_festival
+HIT  | ano po ang kabakahan festival -> kb_festival
+HIT  | what is the cattle festival -> kb_festival
+HIT  | what day is the cattle market open -> kb_trading_day
+HIT  | kailan ang bentahan ng baka -> kb_trading_day
+HIT  | open ba ang bakahan sa friday -> kb_trading_day
+HIT  | is the auction every friday -> kb_trading_day
+HIT  | anong araw ang bakahan -> kb_trading_day
+HIT  | where is the bakahan located -> kb_where
+HIT  | saan matatagpuan ang bakahan -> kb_where
+HIT  | what province is padre garcia -> kb_where
+HIT  | nasaan ang padre garcia -> kb_where
+HIT  | capitl of cattle tradng -> kb_capital
+hits 28, near-miss 0, missed or wrong 0 of 28
+
+== must NOT be taken over ==
+ok    | Compare prices of March and June 2026 -> None
+ok    | price of baka -> None
+ok    | Ano ang panahon bukas? -> None
+ok    | what is the weather in manila -> None
+ok    | who is the president of the philippines -> None
+ok    | where is the nearest mall -> None
+ok    | tell me a joke -> None
+ok    | capital of france -> None
+ok    | hello -> None
+ok    | show data for batangas -> None
+ok    | where is this data from -> None
+ok    | saan galing ang data -> None
+ok    | magkano ang baka ngayon -> None
+ok    | forecast next month -> None
+ok    | what is the stock market today -> None
+wrongly taken over: 0 of 15
