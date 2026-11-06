@@ -9,3 +9,5 @@ __pycache__/
 .pytest_cache/
 database/bakatrack.db
 data/test/
+test.py
+progress_report.txt
