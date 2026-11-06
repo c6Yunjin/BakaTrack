@@ -11,7 +11,7 @@ from modules import market_rules
 from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
-from modules import knowledge_base
+from modules import knowledge_base, semantic_router, system_facts
 from nlp.intent_classifier import predict
 from modules import data_view, dataset_info, easter_eggs, location_rules, smalltalk
 from nlp.language import detect_language
@@ -35,6 +35,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return market_rules.reply(dataset_id, message, intent, lang)
     if intent in easter_eggs.INTENTS:                  # easter egg reply
         return easter_eggs.reply(intent, message, lang)
+    if intent in system_facts.INTENTS:                 # facts about this chatbot
+        return system_facts.reply(intent, lang), None
     if intent in knowledge_base.INTENTS:                 # Padre Garcia facts with sources
         return knowledge_base.reply(intent, lang), None
     if intent in dataset_info.INTENTS:                 # where this dataset starts and ends
@@ -92,6 +94,8 @@ def answer(dataset_id, message):
         rule = market_rules.match(message)       # cattle-market questions the ANN misses
     if not rule:
         rule = knowledge_base.match(message)       # Padre Garcia facts
+    if not rule:
+        rule = semantic_router.match(message)   # new wordings, long sentences, synonyms, typos
     if rule and rule_lang:
         lang = rule_lang
     intent, confidence, is_confident = None, 0.0, False
@@ -103,7 +107,7 @@ def answer(dataset_id, message):
             intent, confidence, is_confident = predict(message)
         near = None
         if not rule and message.strip() and (not is_confident or intent == "out_of_scope"):
-            near = knowledge_base.near_miss(message, lang)     # 'Did you mean...' for unsure matches
+            near = knowledge_base.near_miss(message, lang) or semantic_router.near_miss(message, lang)     # 'Did you mean...' for unsure matches
         if near:
             intent = "kb_near_miss"
             reply, chart = near, None

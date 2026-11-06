@@ -1,0 +1,436 @@
+{
+  "latest_price": {
+    "intent": "latest_price",
+    "need": [
+      [
+        "latest"
+      ],
+      [
+        "price"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "What is the latest price of cattle in this dataset?",
+      "fil": "Ano ang pinakabagong presyo ng baka sa dataset na ito?",
+      "taglish": "Ano ang pinakabagong presyo ng baka sa dataset na ito?"
+    },
+    "examples": [
+      "what is the latest price of baka",
+      "what is the most recent price of cattle per kilo",
+      "current price of cows in the market",
+      "newest price per kilo of cattle",
+      "how much is baka right now",
+      "what is the price of cattle today",
+      "latest baka price",
+      "ano ang pinakabagong presyo ng baka",
+      "magkano ang baka ngayon",
+      "ano ang kasalukuyang presyo ng baka sa palengke",
+      "pinakabagong presyo ng baka kada kilo",
+      "anong presyo ng baka ngayon"
+    ]
+  },
+  "total_value": {
+    "intent": "total_value",
+    "need": [
+      [
+        "value"
+      ],
+      [
+        "baka",
+        "data",
+        "market"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "What is the total value of the cattle sold?",
+      "fil": "Ano ang kabuuang halaga ng mga baka na nabenta?",
+      "taglish": "Ano ang kabuuang halaga ng mga baka na nabenta?"
+    },
+    "examples": [
+      "what is the total value of all cattle sold",
+      "how much money was made from cattle sales",
+      "total sales of baka this month",
+      "how much did the cows sell for in total",
+      "total revenue from cattle",
+      "overall worth of the cattle traded",
+      "total sales of the market",
+      "ano ang kabuuang halaga ng baka na nabenta",
+      "magkano ang kabuuang benta ng baka",
+      "kabuuang halaga ng baka sa palengke",
+      "total value ng baka ngayong buwan"
+    ]
+  },
+  "price_per_head": {
+    "intent": "price_per_head",
+    "need": [
+      [
+        "head",
+        "each"
+      ],
+      [
+        "price",
+        "average",
+        "value"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "What is the average price per head?",
+      "fil": "Ano ang average na presyo kada ulo?",
+      "taglish": "Ano ang average na presyo kada ulo?"
+    },
+    "examples": [
+      "average price per head",
+      "how much does one head of cattle cost",
+      "what is the price of each cow on average",
+      "price per cow",
+      "magkano ang average bawat ulo",
+      "magkano ang isang baka sa average",
+      "average na presyo kada ulo",
+      "presyo ng bawat baka"
+    ]
+  },
+  "weight_per_head": {
+    "intent": "weight_per_head",
+    "need": [
+      [
+        "weight"
+      ],
+      [
+        "baka",
+        "head",
+        "each"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "What is the average weight per head?",
+      "fil": "Ano ang average na bigat kada ulo?",
+      "taglish": "Ano ang average na bigat kada ulo?"
+    },
+    "examples": [
+      "how much does an average cow weigh",
+      "average weight per head",
+      "how heavy is the average cattle",
+      "what is the weight of one baka",
+      "gaano kabigat ang karaniwang baka",
+      "ano ang karaniwang bigat ng baka",
+      "gaano kabigat ang isang baka",
+      "average na timbang kada ulo"
+    ]
+  },
+  "market_summary": {
+    "intent": "market_summary",
+    "need": [
+      [
+        "summary"
+      ],
+      [
+        "baka",
+        "market",
+        "data"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "Give me a summary of the cattle market",
+      "fil": "Magbigay ng buod ng palengke ng baka",
+      "taglish": "Magbigay ng buod ng palengke ng baka"
+    },
+    "examples": [
+      "give me a summary of the cattle market",
+      "quick overview of the cattle market",
+      "market summary",
+      "summary of the cattle data",
+      "buod ng palengke ng baka",
+      "buod ng datos ng baka"
+    ]
+  },
+  "location_info": {
+    "intent": "location_info",
+    "need": [
+      [
+        "data"
+      ],
+      [
+        "place",
+        "source"
+      ]
+    ],
+    "block": "loc",
+    "title": {
+      "en": "Where is this dataset from?",
+      "fil": "Saan galing ang dataset na ito?",
+      "taglish": "Saan galing ang dataset na ito?"
+    },
+    "examples": [
+      "where did this dataset come from",
+      "which place is this data from",
+      "which place does this data cover",
+      "what location is this dataset from",
+      "which town is this data from",
+      "where was this data collected",
+      "saan galing itong datos na ito",
+      "anong lugar ang saklaw ng datos na ito",
+      "saang bayan galing ang datos",
+      "saan nanggaling ang dataset"
+    ]
+  },
+  "dataset_info": {
+    "intent": "dataset_info",
+    "need": [
+      [
+        "data"
+      ],
+      [
+        "date",
+        "many",
+        "cover",
+        "month"
+      ]
+    ],
+    "block": "data",
+    "title": {
+      "en": "What dates and how many records does this dataset have?",
+      "fil": "Anong mga petsa at ilang talaan ang meron sa dataset na ito?",
+      "taglish": "Anong mga petsa at ilang talaan ang meron sa dataset na ito?"
+    },
+    "examples": [
+      "what is the date range of the data",
+      "how many records are in the dataset",
+      "what are the first and last dates in the data",
+      "which months does the data cover",
+      "ilang records ang nasa dataset",
+      "ano ang saklaw na petsa ng datos",
+      "gaano karaming datos ang meron ka",
+      "hanggang kailan ang datos"
+    ]
+  },
+  "sys_about": {
+    "intent": "sys_about",
+    "need": [
+      [
+        "you",
+        "bot"
+      ]
+    ],
+    "block": "sys",
+    "title": {
+      "en": "What can you do?",
+      "fil": "Ano ang kaya mong gawin?",
+      "taglish": "Ano ang kaya mong gawin?"
+    },
+    "examples": [
+      "what can you do",
+      "what are you",
+      "tell me about yourself",
+      "what is bakatrack",
+      "what is this chatbot for",
+      "what are you able to do",
+      "what do you do",
+      "ano ang magagawa mo",
+      "ano ka",
+      "ano ang bakatrack",
+      "para saan ang chatbot na ito",
+      "ano ang mga kaya mong gawin"
+    ]
+  },
+  "sys_how": {
+    "intent": "sys_how",
+    "need": [
+      [
+        "how"
+      ],
+      [
+        "work",
+        "you",
+        "bot"
+      ]
+    ],
+    "block": "sys_how",
+    "title": {
+      "en": "How do you work?",
+      "fil": "Paano ka gumagana?",
+      "taglish": "Paano ka gumagana?"
+    },
+    "examples": [
+      "how do you work",
+      "how does this chatbot work",
+      "how does bakatrack work",
+      "explain how you work",
+      "how do you understand my questions",
+      "how do you find the answer",
+      "paano ka gumagana",
+      "paano gumagana ang chatbot na ito",
+      "paano mo naiintindihan ang tanong ko",
+      "ipaliwanag kung paano ka gumagana"
+    ]
+  },
+  "sys_accuracy": {
+    "intent": "sys_accuracy",
+    "need": [
+      [
+        "accuracy"
+      ]
+    ],
+    "block": "sys_acc",
+    "title": {
+      "en": "How accurate are you?",
+      "fil": "Gaano ka katumpak?",
+      "taglish": "Gaano ka katumpak?"
+    },
+    "examples": [
+      "what is your accuracy",
+      "how accurate are you",
+      "how accurate is the chatbot",
+      "what is the accuracy of the model",
+      "how reliable are your answers",
+      "how often are you correct",
+      "ano ang accuracy mo",
+      "gaano ka katumpak",
+      "gaano katumpak ang mga sagot mo",
+      "gaano ka maaasahan"
+    ]
+  },
+  "sys_ai": {
+    "intent": "sys_ai",
+    "need": [
+      [
+        "ai"
+      ]
+    ],
+    "block": "sys",
+    "title": {
+      "en": "Are you using ChatGPT or any online AI?",
+      "fil": "Gumagamit ka ba ng ChatGPT o online AI?",
+      "taglish": "Gumagamit ka ba ng ChatGPT o online AI?"
+    },
+    "examples": [
+      "are you chatgpt",
+      "are you using chatgpt",
+      "do you use openai",
+      "are you powered by gemini",
+      "are you using an external ai",
+      "do you use a pre trained model",
+      "is this chatbot using an api",
+      "how were you trained",
+      "are you an ai",
+      "gumagamit ka ba ng chatgpt",
+      "ginagamit mo ba ang openai",
+      "saan ka sinanay"
+    ]
+  },
+  "sys_languages": {
+    "intent": "sys_languages",
+    "need": [
+      [
+        "language"
+      ]
+    ],
+    "block": "sys",
+    "title": {
+      "en": "What languages do you understand?",
+      "fil": "Anong mga wika ang naiintindihan mo?",
+      "taglish": "Anong mga wika ang naiintindihan mo?"
+    },
+    "examples": [
+      "what languages do you understand",
+      "do you speak filipino",
+      "can i ask in tagalog",
+      "do you understand taglish",
+      "what languages do you support",
+      "can you speak english",
+      "anong wika ang naiintindihan mo",
+      "marunong ka ba mag tagalog",
+      "pwede ba akong magtanong sa tagalog",
+      "ano ang mga wikang sinusuportahan mo"
+    ]
+  },
+  "sys_forecast_how": {
+    "intent": "sys_forecast_how",
+    "need": [
+      [
+        "forecast"
+      ],
+      [
+        "how",
+        "accuracy",
+        "method",
+        "work"
+      ]
+    ],
+    "block": "",
+    "title": {
+      "en": "How does the forecast work?",
+      "fil": "Paano gumagana ang forecast?",
+      "taglish": "Paano gumagana ang forecast?"
+    },
+    "examples": [
+      "how does the forecast work",
+      "how do you make the forecast",
+      "how is the forecast computed",
+      "how accurate is the forecast",
+      "what method does the forecast use",
+      "paano ginagawa ang forecast",
+      "paano gumagana ang hula",
+      "gaano katumpak ang forecast"
+    ]
+  },
+  "sys_rating_how": {
+    "intent": "sys_rating_how",
+    "need": [
+      [
+        "rating"
+      ],
+      [
+        "how",
+        "work",
+        "method",
+        "rating"
+      ]
+    ],
+    "block": "",
+    "title": {
+      "en": "How does the price rating work?",
+      "fil": "Paano gumagana ang price rating?",
+      "taglish": "Paano gumagana ang price rating?"
+    },
+    "examples": [
+      "how does the price rating work",
+      "how do you rate prices",
+      "what is the fuzzy rating",
+      "how does the fuzzy logic work",
+      "what is fuzzy logic",
+      "paano gumagana ang rating ng presyo",
+      "ano ang fuzzy rating",
+      "paano mo nirarate ang presyo"
+    ]
+  },
+  "sys_limits": {
+    "intent": "sys_limits",
+    "need": [
+      [
+        "limit"
+      ]
+    ],
+    "block": "",
+    "title": {
+      "en": "What are your limitations?",
+      "fil": "Ano ang mga limitasyon mo?",
+      "taglish": "Ano ang mga limitasyon mo?"
+    },
+    "examples": [
+      "what are your limitations",
+      "what can you not do",
+      "what are you not able to do",
+      "can i trust your answers",
+      "can i rely on your answers",
+      "should i trust the forecast",
+      "ano ang mga limitasyon mo",
+      "pwede ba akong magtiwala sa sagot mo",
+      "ano ang hindi mo kaya"
+    ]
+  }
+}

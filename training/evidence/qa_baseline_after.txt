@@ -1,0 +1,55 @@
+
+== market ==
+OK   | can you please tell me what is the most recent price per kil | latest_price 1.00
+OK   | what's the newest price of baka                              | latest_price 1.00
+OK   | ano po ang pinakabagong presyo ng baka sa palengke ngayon    | latest_price 1.00
+OK   | how much money was made from cattle sales last month in tota | total_value 1.00
+OK   | what is the overall worth of all the cows that were sold     | total_value 1.00
+OK   | how heavy is one cow on average                              | weight_per_head 1.00
+OK   | gaano kabigat ang average na baka                            | weight_per_head 1.00
+OK   | how much does one head of cattle cost on average             | price_per_head 1.00
+OK   | magkano ang average bawat ulo                                | price_per_head 1.00
+OK   | give me a quick overview of the cattle market                | market_summary 1.00
+-> 10 of 10
+
+== location ==
+OK   | show data for lipa                                           | location_data 1.00
+OK   | i want to see the records from batangas city please          | location_data 1.00
+OK   | show me data for tanauan                                     | location_data 1.00
+OK   | where did this dataset come from                             | location_info 1.00
+OK   | saan galing itong datos na ito                               | location_info 1.00
+OK   | which place is this data about                               | location_info 1.00
+-> 6 of 6
+
+== dataset_info ==
+OK   | what dates do you have                                       | dataset_info 1.00
+OK   | how many records are in this dataset and what is the date ra | dataset_info 1.00
+OK   | hanggang kailan ang datos mo                                 | dataset_info 1.00
+OK   | what is the first and last date of the data                  | dataset_info 1.00
+-> 4 of 4
+
+== data_view ==
+OK   | show the data for november 2025                              | show_data_raw 1.00
+OK   | can you list the raw records from january to march 2026      | show_data_raw 1.00
+OK   | pakita mo ang datos ng disyembre 2025                        | show_data_raw 1.00
+-> 3 of 3
+
+== system ==
+OK   | what can you do                                              | sys_about 1.00
+OK   | how do you work                                              | sys_how 1.00
+OK   | what is your accuracy                                        | sys_accuracy 1.00
+OK   | are you using chatgpt                                        | sys_ai 1.00
+OK   | what languages do you understand                             | sys_languages 1.00
+OK   | how does the forecast work                                   | sys_forecast_how 1.00
+OK   | ano ang kaya mong gawin                                      | sys_about 1.00
+OK   | paano ka gumagana                                            | sys_how 1.00
+-> 8 of 8
+
+== long ==
+OK   | hi, i am a buyer from lipa and i was wondering if you could  | latest_price 1.00
+OK   | kumusta po, gusto ko lang malaman kung ano ang pinakabagong  | latest_price 1.00
+OK   | good afternoon, can you tell me which place this data is fro | location_info 1.00
+OK   | hello po, pwede ko bang malaman kung ano ang kabuuang halaga | total_value 1.00
+-> 4 of 4
+
+TOTAL 35 of 35
