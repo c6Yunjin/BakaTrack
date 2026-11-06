@@ -61,3 +61,23 @@ def test_near_miss_format(monkeypatch):
     monkeypatch.setattr(sr, "_get", lambda: Fake())
     assert sr.near_miss("who are you", "en").startswith("I am not sure")
     assert "What can you do?" in sr.near_miss("who are you", "en")
+
+
+FIXED = [
+    ("what's the current going rate for cattle per kilo", "latest_price"),
+    ("how big is the dataset", "dataset_info"),
+    ("what period of time does your data go back to", "dataset_info"),
+    ("is the data you have from a real market or just made up", "sys_limits"),
+    ("good afternoon, can you tell me which place this data is from and also if it is real or sample data", "location_info"),
+]
+STILL_NEVER = ["how is the forecast for next month", "what is the price rating", "how is the price rating now"]
+
+
+@pytest.mark.parametrize("text,expected", FIXED)
+def test_fixed_wordings(text, expected):
+    assert sr.match(text) == expected
+
+
+@pytest.mark.parametrize("text", STILL_NEVER)
+def test_still_not_taken_over(text):
+    assert sr.match(text) is None

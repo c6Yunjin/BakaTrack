@@ -205,7 +205,14 @@
       "ilang records ang nasa dataset",
       "ano ang saklaw na petsa ng datos",
       "gaano karaming datos ang meron ka",
-      "hanggang kailan ang datos"
+      "hanggang kailan ang datos",
+      "how big is the dataset",
+      "how large is the data",
+      "how much data do you have",
+      "how far back does the data go",
+      "what period does the data cover",
+      "how old is the data",
+      "gaano kalaki ang datos"
     ]
   },
   "sys_about": {
@@ -361,7 +368,7 @@
         "work"
       ]
     ],
-    "block": "",
+    "block": "sys",
     "title": {
       "en": "How does the forecast work?",
       "fil": "Paano gumagana ang forecast?",
@@ -387,11 +394,10 @@
       [
         "how",
         "work",
-        "method",
-        "rating"
+        "method"
       ]
     ],
-    "block": "",
+    "block": "sys_rate",
     "title": {
       "en": "How does the price rating work?",
       "fil": "Paano gumagana ang price rating?",
@@ -399,20 +405,25 @@
     },
     "examples": [
       "how does the price rating work",
-      "how do you rate prices",
-      "what is the fuzzy rating",
+      "how do you work out the price rating",
+      "how is the fuzzy rating computed",
       "how does the fuzzy logic work",
-      "what is fuzzy logic",
+      "how does fuzzy logic work in this bot",
       "paano gumagana ang rating ng presyo",
-      "ano ang fuzzy rating",
-      "paano mo nirarate ang presyo"
+      "paano gumagana ang fuzzy rating",
+      "paano mo kinukuwenta ang rating ng presyo"
     ]
   },
   "sys_limits": {
     "intent": "sys_limits",
     "need": [
       [
-        "limit"
+        "limit",
+        "real",
+        "fake",
+        "sample",
+        "peke",
+        "totoo"
       ]
     ],
     "block": "",
@@ -430,7 +441,13 @@
       "should i trust the forecast",
       "ano ang mga limitasyon mo",
       "pwede ba akong magtiwala sa sagot mo",
-      "ano ang hindi mo kaya"
+      "ano ang hindi mo kaya",
+      "is the data real or fake",
+      "is this sample data made up",
+      "is this data made up or real",
+      "is the data from a real market or fake",
+      "totoo ba ang datos o peke",
+      "totoo ba o peke ang data na ito"
     ]
   }
 }

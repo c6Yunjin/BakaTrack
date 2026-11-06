@@ -54,7 +54,9 @@ add("dataset_info", "dataset_info", [["data"], ["date", "many", "cover", "month"
         "what is the date range of the data", "how many records are in the dataset",
         "what are the first and last dates in the data", "which months does the data cover",
         "ilang records ang nasa dataset", "ano ang saklaw na petsa ng datos",
-        "gaano karaming datos ang meron ka", "hanggang kailan ang datos"])
+        "gaano karaming datos ang meron ka", "hanggang kailan ang datos", "how big is the dataset", "how large is the data",
+        "how much data do you have", "how far back does the data go",
+        "what period does the data cover", "how old is the data", "gaano kalaki ang datos"])
 add("sys_about", "sys_about", [["you", "bot"]], "sys",
     "What can you do?", "Ano ang kaya mong gawin?", [
         "what can you do", "what are you", "tell me about yourself", "what is bakatrack",
@@ -84,21 +86,23 @@ add("sys_languages", "sys_languages", [["language"]], "sys",
         "do you understand taglish", "what languages do you support", "can you speak english",
         "anong wika ang naiintindihan mo", "marunong ka ba mag tagalog", "pwede ba akong magtanong sa tagalog",
         "ano ang mga wikang sinusuportahan mo"])
-add("sys_forecast_how", "sys_forecast_how", [["forecast"], ["how", "accuracy", "method", "work"]], "",
+add("sys_forecast_how", "sys_forecast_how", [["forecast"], ["how", "accuracy", "method", "work"]], "sys",
     "How does the forecast work?", "Paano gumagana ang forecast?", [
         "how does the forecast work", "how do you make the forecast", "how is the forecast computed",
         "how accurate is the forecast", "what method does the forecast use",
         "paano ginagawa ang forecast", "paano gumagana ang hula", "gaano katumpak ang forecast"])
-add("sys_rating_how", "sys_rating_how", [["rating"], ["how", "work", "method", "rating"]], "",
+add("sys_rating_how", "sys_rating_how", [["rating"], ["how", "work", "method"]], "sys_rate",
     "How does the price rating work?", "Paano gumagana ang price rating?", [
-        "how does the price rating work", "how do you rate prices", "what is the fuzzy rating",
-        "how does the fuzzy logic work", "what is fuzzy logic", "paano gumagana ang rating ng presyo",
-        "ano ang fuzzy rating", "paano mo nirarate ang presyo"])
-add("sys_limits", "sys_limits", [["limit"]], "",
+        "how does the price rating work", "how do you work out the price rating", "how is the fuzzy rating computed",
+        "how does the fuzzy logic work", "how does fuzzy logic work in this bot", "paano gumagana ang rating ng presyo",
+        "paano gumagana ang fuzzy rating", "paano mo kinukuwenta ang rating ng presyo"])
+add("sys_limits", "sys_limits", [["limit", "real", "fake", "sample", "peke", "totoo"]], "",
     "What are your limitations?", "Ano ang mga limitasyon mo?", [
         "what are your limitations", "what can you not do", "what are you not able to do",
         "can i trust your answers", "can i rely on your answers", "should i trust the forecast",
-        "ano ang mga limitasyon mo", "pwede ba akong magtiwala sa sagot mo", "ano ang hindi mo kaya"])
+        "ano ang mga limitasyon mo", "pwede ba akong magtiwala sa sagot mo", "ano ang hindi mo kaya", "is the data real or fake", "is this sample data made up",
+        "is this data made up or real", "is the data from a real market or fake",
+        "totoo ba ang datos o peke", "totoo ba o peke ang data na ito"])
 
 with open("data/router_examples.json", "w", encoding="utf-8") as f:
     json.dump(E, f, indent=2, ensure_ascii=False)

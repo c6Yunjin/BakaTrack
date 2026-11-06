@@ -29,7 +29,7 @@ STOP = set("the a an of in is are to it at po ha ba ay ang ng sa na mga pls plea
 GROUPS = {
     "baka": "cattle cow cows baka livestock bovine kabaka",
     "market": "market palengke merkado",
-    "price": "price prices presyo magkano",
+    "price": "price prices presyo magkano rate rates",
     "kilo": "kilo kilos kg",
     "latest": "latest newest recent current currently now ngayon pinakabago pinakabagong kasalukuyan today presently",
     "value": "value worth revenue cost costs sales sale sell sold halaga benta nabenta nabili earnings income gastos kita",
@@ -42,8 +42,8 @@ GROUPS = {
     "place": "place location lugar lokasyon saan saang where province city town bayan",
     "source": "from galing source origin nagmula nanggaling came come collected",
     "date": "date dates petsa",
-    "many": "many ilang ilan gaano karaming dami",
-    "cover": "cover covers saklaw range span",
+    "many": "many much big large size sizes laki ilang ilan gaano karaming dami",
+    "cover": "cover covers saklaw range span period back far old",
     "month": "month months buwan",
     "summary": "summary overview buod",
     "how": "how paano pano",
@@ -54,7 +54,7 @@ GROUPS = {
     "ai": "ai chatgpt gpt openai gemini claude llm api pretrained trained",
     "language": "language languages wika english filipino tagalog taglish",
     "forecast": "forecast forecasting predict prediction hula tantya",
-    "rating": "rating rate rated fuzzy",
+    "rating": "rating rated fuzzy",
     "method": "method methods paraan",
     "limit": "limit limits limitation limitations limitasyon cant cannot not trust rely magtiwala",
     "compare": "compare comparison vs versus ihambing hambing kumpara",
@@ -77,6 +77,7 @@ BLOCKS = {
 }
 BLOCKS["sys_how"] = BLOCKS["sys"] | {"forecast", "rating"}
 BLOCKS["sys_acc"] = BLOCKS["sys"] | {"forecast"}
+BLOCKS["sys_rate"] = (BLOCKS["sys"] - {"price"}) | {"latest"}
 
 LEAD_INS = [
     r"^(?:hi|hello|hey|good (?:morning|afternoon|evening)|kumusta|kamusta|magandang (?:umaga|hapon|gabi|araw))\b[ ,.!]*(?:po\b[ ,.!]*)?",
