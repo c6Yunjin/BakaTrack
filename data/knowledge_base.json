@@ -1,0 +1,60 @@
+{
+  "note": "General facts about Padre Garcia, Batangas. Written by the group from public sources (see 'source' in each entry). These are NOT from the loaded dataset. Check them again before the defense.",
+  "entries": [
+    {
+      "id": "capital",
+      "need": [["capital", "kabisera"], ["baka", "cattle", "bakahan", "livestock", "cows"]],
+      "exclude": [],
+      "answers": {
+        "en": "Padre Garcia, Batangas is known as the 'Cattle Trading Capital of the Philippines'. That is a nickname, not an official title. It comes from the town's livestock auction market, the bakahan.",
+        "fil": "Kilala ang Padre Garcia, Batangas bilang 'Cattle Trading Capital of the Philippines'. Palayaw ito at hindi opisyal na titulo. Galing ito sa livestock auction market ng bayan, ang bakahan.",
+        "taglish": "Kilala ang Padre Garcia, Batangas bilang 'Cattle Trading Capital of the Philippines'. Nickname ito, hindi official title. Galing ito sa livestock auction market ng bayan, ang bakahan."
+      },
+      "source": "Philippine News Agency (pna.gov.ph) and the Municipality of Padre Garcia website (padregarcia.gov.ph)"
+    },
+    {
+      "id": "history",
+      "need": [["history", "kasaysayan", "start", "started", "begin", "began", "founded", "nagsimula", "simula", "itinatag", "origin", "1952"], ["bakahan", "market", "auction", "cattle", "baka"]],
+      "exclude": ["festival", "kabakahan"],
+      "answers": {
+        "en": "The town council founded the cattle market, the bakahan, in 1952. It grew into the biggest livestock auction market in Southern Tagalog.",
+        "fil": "Itinatag ng konseho ng bayan ang bakahan noong 1952. Lumago ito at naging pinakamalaking livestock auction market sa Southern Tagalog.",
+        "taglish": "Itinatag ng town council ang bakahan noong 1952. Lumago ito at naging pinakamalaking livestock auction market sa Southern Tagalog."
+      },
+      "source": "Municipality of Padre Garcia website, history page (padregarcia.gov.ph)"
+    },
+    {
+      "id": "festival",
+      "need": [["festival", "kabakahan", "kapistahan"], ["kabakahan", "bakahan", "baka", "cattle", "padre", "garcia"]],
+      "exclude": [],
+      "answers": {
+        "en": "The Kabakahan Festival is celebrated every December 1. It highlights the town's main source of income, cattle and its trading.",
+        "fil": "Ipinagdiriwang ang Kabakahan Festival tuwing Disyembre 1. Binibigyang-diin nito ang pangunahing kabuhayan ng bayan, ang baka at ang kalakalan nito.",
+        "taglish": "Ipinagdiriwang ang Kabakahan Festival tuwing December 1. Binibigyang-diin nito ang main source of income ng bayan, ang baka at ang trading nito."
+      },
+      "source": "Municipality of Padre Garcia website, tourism page (padregarcia.gov.ph)"
+    },
+    {
+      "id": "trading_day",
+      "need": [["kailan", "when", "araw", "day", "schedule", "iskedyul", "open", "bukas", "friday", "biyernes"], ["bakahan", "auction", "market", "trading", "palengke"]],
+      "exclude": ["history", "kasaysayan", "started", "founded", "nagsimula", "itinatag", "origin", "festival", "kabakahan"],
+      "answers": {
+        "en": "Cattle trading in Padre Garcia happens every Friday. Please confirm the current schedule with the market office before you go.",
+        "fil": "Tuwing Biyernes ang bentahan ng baka sa Padre Garcia. Kumpirmahin muna ang kasalukuyang iskedyul sa opisina ng palengke bago pumunta.",
+        "taglish": "Tuwing Friday ang cattle trading sa Padre Garcia. I-confirm muna ang current schedule sa market office bago pumunta."
+      },
+      "source": "Municipality of Padre Garcia website (padregarcia.gov.ph) and Wikipedia (Padre Garcia)"
+    },
+    {
+      "id": "where",
+      "need": [["saan", "where", "nasaan", "location", "lokasyon", "located"], ["padre", "garcia", "bakahan", "auction", "market"]],
+      "exclude": ["capital"],
+      "answers": {
+        "en": "Padre Garcia is a municipality in Batangas province, in the Calabarzon region. It is about 132 km from Manila and 11 km from Lipa.",
+        "fil": "Ang Padre Garcia ay isang bayan sa lalawigan ng Batangas, sa rehiyong Calabarzon. Mga 132 km ito mula sa Maynila at 11 km mula sa Lipa.",
+        "taglish": "Ang Padre Garcia ay isang bayan sa Batangas, sa Calabarzon region. Mga 132 km ito mula Manila at 11 km mula Lipa."
+      },
+      "source": "Wikipedia (Padre Garcia)"
+    }
+  ]
+}

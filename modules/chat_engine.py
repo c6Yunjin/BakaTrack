@@ -11,6 +11,7 @@ from modules import market_rules
 from database import db
 from modules import chart_maker, forecaster, fuzzy_rater, query_engine, response_builder as rb
 from nlp.date_parser import parse_query
+from modules import knowledge_base
 from nlp.intent_classifier import predict
 from modules import data_view, dataset_info, easter_eggs, location_rules, smalltalk
 from nlp.language import detect_language
@@ -34,6 +35,8 @@ def _reply_for(dataset_id, message, lang, intent, confidence, is_confident):
         return market_rules.reply(dataset_id, message, intent, lang)
     if intent in easter_eggs.INTENTS:                  # easter egg reply
         return easter_eggs.reply(intent, message, lang)
+    if intent in knowledge_base.INTENTS:                 # Padre Garcia facts with sources
+        return knowledge_base.reply(intent, lang), None
     if intent in dataset_info.INTENTS:                 # where this dataset starts and ends
         return dataset_info.reply(dataset_id, lang), None
     if intent in data_view.INTENTS:                    # data table request
@@ -87,6 +90,8 @@ def answer(dataset_id, message):
         rule = dataset_info.match(message)      # 'what dates do you have?'
     if not rule:
         rule = market_rules.match(message)       # cattle-market questions the ANN misses
+    if not rule:
+        rule = knowledge_base.match(message)       # Padre Garcia facts
     if rule and rule_lang:
         lang = rule_lang
     intent, confidence, is_confident = None, 0.0, False

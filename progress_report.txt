@@ -1,0 +1,164 @@
+
+======================================================================
+1. GIT
+======================================================================
+main
+-- uncommitted changes (?? = new file, M = edited):
+?? test.py
+-- last 10 commits:
+b7513f8 Dataset location (34 Batangas places): show data for a place, where is this data from, wrong-place guard
+7c3621b Market rules: latest price, total value, price per head, weight per head, summary
+7abb4e5 First-page chips now built from each dataset's own date range
+2dadaf9 Dataset info answer, all-data highest/lowest month, helpful empty-range message
+28f8c8d Show raw records for a date range; update old test for the new rule
+1dcbe8f Point rickroll egg to webm
+6c55931 Add files via upload
+c4d77fd Add files via upload
+327c530 Credits in the who-made-you egg
+71e3b4d Connect easter eggs to chat engine
+-- commits per author:
+39	c6Yunjin
+
+======================================================================
+2. FILES (size in bytes, or MISSING)
+======================================================================
+  app.py                                 4708
+  config.py                              649
+  load_samples.py                        957
+  data/intents.json                      20341
+  data/classmate_questions.csv           1233
+  models/intent_model.joblib             8622193
+  training/evidence/results.json         731
+  nlp/preprocess.py                      1951
+  nlp/intent_classifier.py               2836
+  nlp/date_parser.py                     11993
+  nlp/language.py                        1256
+  modules/chat_engine.py                 5570
+  modules/query_engine.py                4242
+  modules/response_builder.py            21780
+  modules/chart_maker.py                 2617
+  modules/forecaster.py                  4032
+  modules/fuzzy_rater.py                 3879
+  modules/smalltalk.py                   5569
+  modules/data_view.py                   13756
+  modules/easter_eggs.py                 6315
+  modules/dataset_info.py                7240
+  modules/knowledge_base.py              MISSING
+  data/knowledge_base.json               MISSING
+  web/templates/index.html               2350
+  web/static/app.js                      10170
+  web/static/style.css                   8806
+  web/static/table_view.js               4033
+  web/static/chart_view.js               1498
+  web/static/eggs.js                     2529
+  web/static/rickroll.webm               21008237
+  tests/test_easter_eggs.py              3231
+  tests/test_data_range.py               3192
+  tests/test_dataset_info.py             2740
+
+======================================================================
+3. FEATURE CHECKS (is the code connected?)
+======================================================================
+  chat engine uses easter eggs           OK
+  chat engine uses dataset_info          OK
+  chat engine uses smalltalk             OK
+  chat engine uses data_view             OK
+  data table has date-range code         OK
+  note_all_data template exists          OK
+  dataset_info swaps note_keys           OK
+  eggs.js points to rickroll.webm        OK
+  download route passes start/end        OK
+  total_value in query engine            NOT FOUND
+  location field in database             OK
+
+-- order of the rule checks inside chat_engine.answer():
+  line 79: rule, rule_lang = easter_eggs.match(message), None   # easter eggs first
+  line 81: rule, rule_lang = smalltalk.match(message)         # small talk rules come before the ANN
+  line 83: rule = location_rules.match(message)    # 'show data for Lipa', 'where is this data from'
+  line 85: rule = data_view.match(message)         # 'show the data' requests
+  line 87: rule = dataset_info.match(message)      # 'what dates do you have?'
+  line 89: rule = market_rules.match(message)       # cattle-market questions the ANN misses
+
+======================================================================
+4. TESTS (python -m pytest -q)
+======================================================================
+........................................................................ [ 62%]
+............................................                             [100%]
+116 passed in 1.99s
+
+======================================================================
+5. DATASETS (read from a temporary copy of the database)
+======================================================================
+Datasets found: 2
+  id=15 | 5000 Sample | records=5000 | 2017-01-01 to 2026-10-28
+  id=25 | SAMPLE - Demo Market | records=53 | 2025-11-01 to 2026-10-31
+
+======================================================================
+6. QUESTIONS THE PROFESSOR MAY ASK (run on the biggest dataset)
+======================================================================
+Dataset used: 5000 Sample
+
+Q: How much is the total cost of baka right now
+   intent=total_value conf=1.0 extra=none
+   A: Total value traded in October 2026: ₱64,872,238.33 (kilos x price). That is 354,704 kg across 1,055 heads, at an average of ₱182.89 per kilo. Period: October 2026 (1 month of records used). No dates were given, so I used the latest month in
+
+Q: check latest retail price of baka
+   intent=latest_price conf=1.0 extra=none
+   A: Latest price in this dataset: ₱183.40 per kilo, from the record on October 28, 2026. The October 2026 average is ₱182.89 per kilo. That is 0.1% higher than September 2026 (₱182.74). Period: October 2026 (1 month of records used). Prices are
+
+Q: price of baka
+   intent=latest_price conf=1.0 extra=none
+   A: Latest price in this dataset: ₱183.40 per kilo, from the record on October 28, 2026. The October 2026 average is ₱182.89 per kilo. That is 0.1% higher than September 2026 (₱182.74). Period: October 2026 (1 month of records used). Prices are
+
+Q: monthly summary of baka
+   intent=market_summary conf=1.0 extra=table
+   A: Here is the monthly summary of this dataset: 118 months of records (January 2017 to October 2026), 5,000 records in total. Click a column heading to sort.
+
+Q: kilos of baka this month
+   intent=total_kilos conf=1.0 extra=none
+   A: Total kilos: 354,704 kg Period: October 2026 (1 month of records used). Dates are counted from the latest record in the data (2026-10-28).
+
+Q: show data for batangas
+   intent=location_data conf=1.0 extra=table
+   A: Batangas is a whole province. This dataset covers Lipa City, Batangas only, so here is its data (it does not include other Batangas places). Here is the monthly summary of this dataset: 118 months of records (January 2017 to October 2026), 
+
+Q: saan ang baka capital
+   intent=out_of_scope conf=0.965 extra=none
+   A: Pasensya na, ang masasagot ko lang ay tungkol sa dami at presyo ng baka mula sa datos na naka-load.
+
+Q: magkano ang baka ngayon
+   intent=latest_price conf=1.0 extra=none
+   A: Pinakabagong presyo sa dataset na ito: ₱183.40 kada kilo, mula sa talaan noong Oktubre 28, 2026. Ang average ng Oktubre 2026 ay ₱182.89 kada kilo. Ito ay 0.1% mas mataas kaysa noong Setyembre 2026 (₱182.74). Saklaw: Oktubre 2026 (1 buwan ng
+
+Q: total value of cattle traded
+   intent=total_value conf=1.0 extra=none
+   A: Total value traded in October 2026: ₱64,872,238.33 (kilos x price). That is 354,704 kg across 1,055 heads, at an average of ₱182.89 per kilo. Period: October 2026 (1 month of records used). No dates were given, so I used the latest month in
+
+Q: average price per head
+   intent=price_per_head conf=1.0 extra=none
+   A: Average price per head in October 2026: ₱61,490.27 (₱64,872,238.33 total value / 1,055 heads). This is worked out from the records, so it is a rough guide. Period: October 2026 (1 month of records used). No dates were given, so I used the l
+
+Q: where is this data from
+   intent=location_info conf=1.0 extra=none
+   A: This dataset is from Lipa City, Batangas. It is SAMPLE (fake) demo data, not real market records.
+
+Q: what dates do you have?
+   intent=dataset_info conf=1.0 extra=none
+   A: This dataset has 5000 records from January 1, 2017 to October 28, 2026 (118 months of data). You can ask about any date in this range.
+
+Q: Which month has the highest price?
+   intent=peak_month conf=0.998 extra=none
+   A: Highest price per kilo: April 2026 (₱190.96). Period: January 2017 to October 2026 (118 months of records used). No dates were given, so I used all 118 months of data: January 1, 2017 to October 28, 2026. Prices are averages weighted by kil
+
+Q: Compare prices of March and June 2026
+   intent=price_compare conf=0.988 extra=none
+   A: The price per kilo in June 2026 is lower than in March 2026: ₱186.74 vs ₱188.00 (difference ₱1.26, 0.7%). Period: March 2026 to June 2026 (4 months of records used). Prices are averages weighted by kilos.
+
+======================================================================
+7. WHERE THE FIRST-PAGE SUGGESTION CHIPS COME FROM
+======================================================================
+  web/static/app.js:98: function exampleQuestions(info, id) {
+  web/static/app.js:99: if (!info || !info.first_date || !info.last_date) return exampleQuestionsOld(info);
+  web/static/app.js:118: function exampleQuestionsOld(info) {
+  web/static/app.js:132: box.appendChild(make("p", "", d ? "Try one of these, or type your own question in English, Filipino or Taglish."
+  web/static/app.js:135: if (d) exampleQuestions(info, d.id).forEach(q => {
